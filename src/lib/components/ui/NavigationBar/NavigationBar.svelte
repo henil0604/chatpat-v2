@@ -24,11 +24,13 @@
 
 <!-- SideBar -->
 <div class="max-md:hidden h-screen w-fit border-r">
-    <div class="flex flex-col w-[70px] h-full justify-between">
+    <div class="flex flex-col min-w-[70px] h-full justify-between">
         <!-- HEAD -->
         <div class="head h-fit">
             {#if showTitle}
-                <div class="flex-center p-3">ChatPat</div>
+                <div class="flex-center text-xl font-semibold text-center p-3">
+                    ChatPat
+                </div>
             {/if}
         </div>
         <!-- BODY -->
@@ -74,15 +76,17 @@
         <!-- HEAD -->
         <div class="head w-fit h-fit">
             {#if showTitle}
-                <div class="flex-center p-3">ChatPat</div>
+                <div class="flex-center text-xl font-semibold text-center p-3">
+                    ChatPat
+                </div>
             {/if}
         </div>
         <!-- content -->
         <div class="flex-grow h-full" />
         <!-- footer -->
-        <div class="w-fit px-3 flex justify-end">
+        <div class="w-fit flex items-end">
             <User>
-                <div class="flex-center w-full h-fit py-2">
+                <div class="flex-center w-full h-fit p-2">
                     <UserProfile tooltipSide="bottom" />
                 </div>
 

@@ -7,33 +7,22 @@
         DialogTitle,
         DialogTrigger,
     } from "$components/ui/dialog";
-    import { Button } from "$components/ui/button";
-    import Icon from "@iconify/svelte";
-    import { signIn } from "@auth/sveltekit/client";
-    import { loading } from "$lib/store";
+    export let open = false;
+    import CardOfLoginButton from "$components/Card.LoginButton.svelte";
 
-    function handleLogin(provider: string) {
-        $loading = true;
-        signIn(provider);
-    }
+    export let callbackPath: string | undefined = undefined;
+    export let title = "Login with...";
 </script>
 
-<Dialog>
+<Dialog {open}>
     <DialogTrigger class="w-full">
         <slot />
     </DialogTrigger>
     <DialogContent class="h-fit">
         <DialogHeader>
-            <DialogTitle class="mb-5">Login with...</DialogTitle>
+            <DialogTitle class="mb-5">{title}</DialogTitle>
             <DialogDescription>
-                <Button
-                    on:click={() => handleLogin("github")}
-                    variant="outline"
-                    class="h-fit flex gap-3 text-lg"
-                >
-                    <Icon class="text-5xl" icon="mdi:github" />
-                    Github
-                </Button>
+                <CardOfLoginButton {callbackPath} />
             </DialogDescription>
         </DialogHeader>
     </DialogContent>
