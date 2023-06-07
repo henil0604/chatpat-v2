@@ -18,6 +18,8 @@
         href: string;
     }
     export let actions: Action[] = [];
+
+    export let showTitle = true;
 </script>
 
 <!-- SideBar -->
@@ -25,7 +27,9 @@
     <div class="flex flex-col w-[70px] h-full justify-between">
         <!-- HEAD -->
         <div class="head h-fit">
-            <div class="flex-center p-3">ChatPat</div>
+            {#if showTitle}
+                <div class="flex-center p-3">ChatPat</div>
+            {/if}
         </div>
         <!-- BODY -->
         <div class="flex-grow h-full">
@@ -48,7 +52,7 @@
         </div>
         <!-- Footer -->
         <div class="h-fit flex justify-end">
-            <User let:user>
+            <User>
                 <div class="flex-center w-full h-fit py-2">
                     <UserProfile />
                 </div>
@@ -65,6 +69,31 @@
     </div>
 </div>
 
-<div class="md:hidden">
-    <div class="flex flex-col" />
+<div class="md:hidden w-full h-fit border-b">
+    <div class="flex min-h-[50px] w-full justify-between">
+        <!-- HEAD -->
+        <div class="head w-fit h-fit">
+            {#if showTitle}
+                <div class="flex-center p-3">ChatPat</div>
+            {/if}
+        </div>
+        <!-- content -->
+        <div class="flex-grow h-full" />
+        <!-- footer -->
+        <div class="w-fit px-3 flex justify-end">
+            <User>
+                <div class="flex-center w-full h-fit py-2">
+                    <UserProfile tooltipSide="bottom" />
+                </div>
+
+                <svelte:fragment slot="signedOut">
+                    <LoginButton>
+                        <Button class="w-full rounded-none py-7 text-3xl">
+                            <Icon icon="material-symbols:login" />
+                        </Button>
+                    </LoginButton>
+                </svelte:fragment>
+            </User>
+        </div>
+    </div>
 </div>

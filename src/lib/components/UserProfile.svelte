@@ -31,6 +31,8 @@
         $loading = true;
         signOut();
     }
+
+    export let tooltipSide = "right";
 </script>
 
 <Dialog>
@@ -42,7 +44,7 @@
                     <AvatarFallback>{initials}</AvatarFallback>
                 </Avatar>
             </TooltipTrigger>
-            <TooltipContent side="right">
+            <TooltipContent side={tooltipSide}>
                 {user.name}
             </TooltipContent>
         </Tooltip>
