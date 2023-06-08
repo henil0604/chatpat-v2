@@ -11,7 +11,7 @@ import { sequence } from '@sveltejs/kit/hooks';
 import { createTRPCHandle } from 'trpc-sveltekit';
 import GithubProvider from '@auth/core/providers/github'
 import GoogleProvider from '@auth/core/providers/google'
-import isProtectedRoute from '$lib/modules/isProtectedRoute';
+import System from '$lib/modules/System'
 
 const trpcHandle: Handle = createTRPCHandle({ router, createContext });
 
@@ -53,6 +53,15 @@ const authHandle: Handle = SvelteKitAuth({
     }
 })
 
+
+const sessionHandle: Handle = async ({ event, resolve }) => {
+    const session = await event.locals.getSession()
+
+    event.locals.user = session?.user || null;
+
+    return resolve(event);
+}
+
 const protectedRouteHandle: Handle = async ({ event, resolve }) => {
     const session = await event.locals.getSession();
 
@@ -60,18 +69,10 @@ const protectedRouteHandle: Handle = async ({ event, resolve }) => {
         return resolve(event);
     }
 
-    if ((!session || !session?.user) && isProtectedRoute(event.url.pathname)) {
+    if ((!session || !session?.user) && System.isProtectedRoute(event.url.pathname)) {
         const fromUrl = event.url.pathname + event.url.search;
         throw redirect(301, `/login?redirectTo=${fromUrl}`)
     }
-
-    return resolve(event);
-}
-
-const sessionHandle: Handle = async ({ event, resolve }) => {
-    const session = await event.locals.getSession()
-
-    event.locals.user = session?.user || null;
 
     return resolve(event);
 }
