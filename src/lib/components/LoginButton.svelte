@@ -21,7 +21,7 @@
     <DialogContent class="h-fit">
         <DialogHeader>
             <DialogTitle class="mb-5">{title}</DialogTitle>
-            <DialogDescription>
+            <DialogDescription class="grid grid-cols-2 gap-2">
                 <CardOfLoginButton {callbackPath} />
             </DialogDescription>
         </DialogHeader>

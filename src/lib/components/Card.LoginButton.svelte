@@ -24,3 +24,11 @@
     <Icon class="text-5xl" icon="mdi:github" />
     Github
 </Button>
+<Button
+    on:click={() => handleLogin("google")}
+    variant="outline"
+    class="h-fit flex gap-3 text-lg"
+>
+    <Icon class="text-5xl" icon="mdi:google" />
+    Google
+</Button>

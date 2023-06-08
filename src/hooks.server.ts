@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import { AUTH_SECRET, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } from '$env/static/private';
+import { AUTH_SECRET, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } from '$env/static/private';
 import { prisma } from '$lib/db';
 import { createContext } from '$lib/trpc/context';
 import { router } from '$lib/trpc/router';
@@ -10,6 +10,7 @@ import { redirect, type Handle } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 import { createTRPCHandle } from 'trpc-sveltekit';
 import GithubProvider from '@auth/core/providers/github'
+import GoogleProvider from '@auth/core/providers/google'
 import isProtectedRoute from '$lib/modules/isProtectedRoute';
 
 const trpcHandle: Handle = createTRPCHandle({ router, createContext });
@@ -18,8 +19,14 @@ const authHandle: Handle = SvelteKitAuth({
     providers: [
         GithubProvider({
             clientId: GITHUB_CLIENT_ID,
-            clientSecret: GITHUB_CLIENT_SECRET
-        })
+            clientSecret: GITHUB_CLIENT_SECRET,
+            allowDangerousEmailAccountLinking: true
+        }),
+        GoogleProvider({
+            clientId: GOOGLE_CLIENT_ID,
+            clientSecret: GOOGLE_CLIENT_SECRET,
+            allowDangerousEmailAccountLinking: true,
+        }),
     ],
     secret: AUTH_SECRET,
     // @ts-ignore
