@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import { AUTH_SECRET, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECERT } from '$env/static/private';
+import { AUTH_SECRET, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } from '$env/static/private';
 import { prisma } from '$lib/db';
 import { createContext } from '$lib/trpc/context';
 import { router } from '$lib/trpc/router';
@@ -18,7 +18,7 @@ const authHandle: Handle = SvelteKitAuth({
     providers: [
         GithubProvider({
             clientId: GITHUB_CLIENT_ID,
-            clientSecret: GITHUB_CLIENT_SECERT
+            clientSecret: GITHUB_CLIENT_SECRET
         })
     ],
     secret: AUTH_SECRET,

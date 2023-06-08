@@ -10,8 +10,8 @@
 </script>
 
 <div class="w-full h-full flex flex-col items-center py-10 pt-36 max-md:pt-28">
-    <h1 class="text-8xl font-bold max-md:text-5xl max-sm:text-4xl">ChatPat</h1>
-    <div class="my-2" />
+    <h1 class="text-8xl font-bold max-md:text-5xl">ChatPat</h1>
+    <div class="my-2 max-md:my-1" />
     <h5 class="italic text-lg font-extralight max-md:text-base max-sm:text-sm">
         Flavour of Privacy
     </h5>
