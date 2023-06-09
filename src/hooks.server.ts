@@ -35,8 +35,8 @@ const authHandle: Handle = SvelteKitAuth({
         session: async ({ session, user }) => {
 
             if (session.user) {
-                // @ts-ignore
                 session.user.id = user.id;
+                session.user.username = user.username;
             }
 
             try {
@@ -70,11 +70,23 @@ const protectedRouteHandle: Handle = async ({ event, resolve }) => {
     }
 
     if ((!session || !session?.user) && System.isProtectedRoute(event.url.pathname)) {
-        const fromUrl = event.url.pathname + event.url.search;
-        throw redirect(301, `/login?redirectTo=${fromUrl}`)
+        const fromUrl = event.url.pathname + (event.url.searchParams.get("redirectTo") || "");
+        throw redirect(301, `/login?redirectTo=${fromUrl}`);
     }
 
     return resolve(event);
 }
 
-export const handle = sequence(authHandle, trpcHandle, sessionHandle, protectedRouteHandle);
+const onBoardingHandle: Handle = async ({ event, resolve }) => {
+    const user = event.locals.user;
+
+    if (user && !user.username && event.url.pathname !== "/onboarding" && !event.url.pathname.startsWith("/trpc")) {
+        const fromUrl = event.url.pathname + (event.url.searchParams.get("redirectTo") || "");
+        throw redirect(301, `/onboarding?redirectTo=${fromUrl}`);
+    }
+
+    return resolve(event);
+}
+
+
+export const handle = sequence(authHandle, sessionHandle, protectedRouteHandle, onBoardingHandle, trpcHandle);

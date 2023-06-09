@@ -22,9 +22,12 @@ dependencies:
   clsx:
     specifier: ^1.2.1
     version: 1.2.1
+  lodash-es:
+    specifier: ^4.17.21
+    version: 4.17.21
   lucide-svelte:
-    specifier: ^0.233.0
-    version: 0.233.0(svelte@3.59.1)
+    specifier: ^0.241.0
+    version: 0.241.0(svelte@3.59.1)
   tailwind-merge:
     specifier: ^1.13.0
     version: 1.13.0
@@ -51,6 +54,9 @@ devDependencies:
   '@sveltejs/kit':
     specifier: ^1.5.0
     version: 1.20.1(svelte@3.59.1)(vite@4.3.9)
+  '@types/lodash-es':
+    specifier: ^4.17.7
+    version: 4.17.7
   autoprefixer:
     specifier: ^10.4.14
     version: 10.4.14(postcss@8.4.24)
@@ -684,6 +690,16 @@ packages:
     resolution: {integrity: sha512-LG4opVs2ANWZ1TJoKc937iMmNstM/d0ae1vNbnBvBhqCSezgVUOzcLCqbI5elV8Vy6WKwKjaqR+zO9VKirBBCA==}
     dev: false
 
+  /@types/lodash-es@4.17.7:
+    resolution: {integrity: sha512-z0ptr6UI10VlU6l5MYhGwS4mC8DZyYer2mCoyysZtSF7p26zOX8UpbrV0YpNYLGS8K4PUFIyEr62IMFFjveSiQ==}
+    dependencies:
+      '@types/lodash': 4.14.195
+    dev: true
+
+  /@types/lodash@4.14.195:
+    resolution: {integrity: sha512-Hwx9EUgdwf2GLarOjQp5ZH8ZmblzcbTBC2wtQWNKARBSxM9ezRIAUpeDTgoQRAFB0+8CNWXVA9+MaSOzOF3nPg==}
+    dev: true
+
   /@types/node@20.2.5:
     resolution: {integrity: sha512-JJulVEQXmiY9Px5axXHeYGLSjhkZEnD+MDPDGbCbIAbMslkKwmygtZFy1X6s/075Yo94sf8GuSlFfPzysQrWZQ==}
     dev: false
@@ -1111,6 +1127,10 @@ packages:
   /lines-and-columns@1.2.4:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
 
+  /lodash-es@4.17.21:
+    resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
+    dev: false
+
   /loose-envify@1.4.0:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
     hasBin: true
@@ -1125,8 +1145,8 @@ packages:
       yallist: 4.0.0
     dev: false
 
-  /lucide-svelte@0.233.0(svelte@3.59.1):
-    resolution: {integrity: sha512-Sqt8KCmhtLTh7aOFeqQXAlZNk7uH1NZ+0OvcgDvQG16T//Z3EvNk8TpcPWm9KfcEkDLSAl3GJqmkb9jRfYyM7A==}
+  /lucide-svelte@0.241.0(svelte@3.59.1):
+    resolution: {integrity: sha512-y6wDjiTaWF9dIFGVCJpELAuhsKN7CiU21vhOnW9Adhi2YbYMOVhNUxceIf6JDuJOg6ZiV1r5cffi92fyvkLd3Q==}
     peerDependencies:
       svelte: ^3.49.0
     dependencies:

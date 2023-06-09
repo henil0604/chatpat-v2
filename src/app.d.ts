@@ -18,12 +18,10 @@ declare global {
 
 
 declare module '@auth/core/types' {
-	interface User {
-		id?: string;
-	}
 	interface Session {
 		user: {
 			id?: string | null
+			username?: string | null
 		} & DefaultSession["user"]
 	}
 }

@@ -58,4 +58,24 @@ module.exports = {
     }
   },
   plugins: [require("tailwindcss-animate")],
+  safelist: [
+    {
+      pattern: /text-(.*)/
+    },
+    {
+      pattern: /bg-(.*)/
+    },
+    {
+      pattern: /top-(.*)/
+    },
+    {
+      pattern: /bottom-(.*)/
+    },
+    {
+      pattern: /left-(.*)/
+    },
+    {
+      pattern: /right-(.*)/
+    },
+  ]
 }
