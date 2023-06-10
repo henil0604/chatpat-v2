@@ -20,7 +20,7 @@
         <svelte:fragment slot="signedOut">
             <div class="mt-10" />
             <LoginButton>
-                <Button size="sm">Login</Button>
+                <Button size="sm">Login to continue</Button>
             </LoginButton>
         </svelte:fragment>
     </User>
