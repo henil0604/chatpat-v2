@@ -131,6 +131,7 @@
             <div class="flex-grow overflow-y-auto">
                 {#each actions as action}
                     <Button
+                    on:click={()=>isDrawerOpen = false}
                         href={action.href}
                         class="flex justify-start gap-3 w-full rounded-none py-7 text-xl {$page
                             .url.pathname === action.href

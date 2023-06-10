@@ -49,18 +49,34 @@
             </TooltipContent>
         </Tooltip>
     </DialogTrigger>
-    <DialogContent class="h-fit">
+    <DialogContent class="h-fit max-sm:h-full max-md:w-full">
         <DialogHeader>
-            <DialogTitle class="mb-5">Hey {user.name}</DialogTitle>
+            <DialogTitle class="mb-5 text-left"
+                >Hey, <span class="highlight">{user.name}</span></DialogTitle
+            >
             <DialogDescription>
-                <div class="w-full h-full flex gap-5">
+                <div
+                    class="w-full h-full flex gap-5 max-md:flex-col max-md:items-center"
+                >
                     <!-- Avatar -->
                     <Avatar class="w-40 h-40">
                         <AvatarImage src={user.image || ""} alt="" />
                         <AvatarFallback>{initials}</AvatarFallback>
                     </Avatar>
-                    <div class="flex flex-col w-full gap-3">
-                        <div class="grid w-full max-w-sm items-center gap-1.5">
+                    <div class="flex [&>div]:items-start flex-col w-full gap-3">
+                        <div class="flex flex-col w-full gap-1.5">
+                            <Label for="username">Username</Label>
+                            <Input
+                                disabled
+                                readonly
+                                type="text"
+                                id="username"
+                                placeholder="username"
+                                class="w-full"
+                                value={user.username}
+                            />
+                        </div>
+                        <div class="flex flex-col w-full gap-1.5">
                             <Label for="email">Email</Label>
                             <Input
                                 disabled

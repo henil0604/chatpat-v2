@@ -46,7 +46,14 @@
         roomName.checking = false;
     }, 500);
 
-    $: canSubmit = roomName.valid && !roomName.checking && password.value;
+    $: passwordValid =
+        (visibility.value === "private" && password.value.trim() !== "") ||
+        visibility.value !== "private";
+
+    $: canSubmit = roomName.valid && !roomName.checking && passwordValid;
+
+    $: console.log("canSubmit?", canSubmit);
+    $: console.log("passwordValid?", passwordValid);
 
     function handleCreate() {}
 
