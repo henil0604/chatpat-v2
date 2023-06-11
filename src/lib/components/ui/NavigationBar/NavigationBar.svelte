@@ -122,15 +122,15 @@
             class="bg-secondary w-full h-full rounded-md flex flex-col justify-between"
         >
             <!-- Header -->
-            <div class="flex justify-between p-2 px-4 pb-5">
+            <div class="flex justify-between p-2 px-4 pb-3">
                 <!-- Title -->
-                <div class="text-3xl font-semibold">ChatPat</div>
+                <div class="text-xl font-semibold">ChatPat</div>
                 <!-- Close -->
                 <Button
                     on:click={() => (isDrawerOpen = false)}
                     size="sm"
                     variant="outline"
-                    class="text-3xl px-1.5"
+                    class="text-2xl px-1.5"
                 >
                     <Icon icon="line-md:close" />
                 </Button>
@@ -142,9 +142,9 @@
                     <Button
                         on:click={() => (isDrawerOpen = false)}
                         href={action.href}
-                        class="flex justify-start gap-3 w-full rounded-none py-7 text-xl {$page
+                        class="flex justify-start gap-3 w-full border-y rounded-none py-4 text-base {$page
                             .url.pathname === action.href
-                            ? 'bg-blue-600 text-white hover:bg-blue-600 '
+                            ? 'bg-blue-600 text-white hover:bg-blue-600'
                             : 'bg-secondary text-white hover:bg-secondary hover:text-secondary-foreground'}"
                     >
                         <Icon icon={action.icon} />
