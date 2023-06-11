@@ -15,6 +15,7 @@
     import { CODE } from "$lib/const";
     import { loading } from "$lib/store";
     import { trpc } from "$lib/trpc/client";
+    import { redirect } from "@sveltejs/kit";
     import { debounce } from "lodash-es";
 
     const user = $page.data.user!;

@@ -1,4 +1,4 @@
-import { REGEX } from "$lib/const";
+import { INITIAL_WALLET_BALANCE, REGEX } from "$lib/const";
 import { prisma } from "$lib/db";
 import type { User } from "@prisma/client";
 
@@ -43,6 +43,47 @@ class ServerUser {
         return set;
     }
 
+    public static async getWalletByUserId(ownerId: string) {
+        let wallet = await prisma.wallet.findFirst({
+            where: {
+                ownerId: ownerId
+            }
+        })
+
+        return wallet;
+    }
+
+    public static async createWallet(ownerId: string) {
+        let wallet = await prisma.wallet.create({
+            data: {
+                owner: {
+                    connect: {
+                        id: ownerId
+                    }
+                },
+                balance: INITIAL_WALLET_BALANCE
+            }
+        })
+
+        return wallet;
+    }
+
+    public static hasEnoughCoins(balance: number, cost: number) {
+        return balance >= cost ? true : false;
+    }
+
+    public static async changeWalletBalance(ownerId: string, amount: number) {
+        return prisma.wallet.update({
+            where: {
+                ownerId: ownerId
+            },
+            data: {
+                balance: {
+                    increment: amount
+                }
+            }
+        })
+    }
 
 }
 

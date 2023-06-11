@@ -1,5 +1,6 @@
 import { REGEX } from "$lib/const";
 import { prisma } from "$lib/db";
+import System from "../System";
 
 export default class ServerRoom {
 
@@ -36,5 +37,25 @@ export default class ServerRoom {
             message: "Roomname is valid"
         }
     }
+
+    public static async createRoom(ownerId: string, roomName: string, visibility: string, password?: string) {
+        password = visibility === 'private' ? System.hash(password as string) : undefined;
+
+        const room = prisma.room.create({
+            data: {
+                name: roomName,
+                visibility,
+                password,
+                owner: {
+                    connect: {
+                        id: ownerId
+                    }
+                }
+            }
+        })
+
+        return room;
+    }
+
 
 }

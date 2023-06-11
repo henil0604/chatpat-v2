@@ -37,5 +37,9 @@ export const userRouter = t.router({
             message: "Successfully completed profile"
         }
     }),
+    getUserWalletBalance: t.procedure.use(authMiddleware).query(async ({ input, ctx }) => {
+        const user = ctx.user!;
+        return user.wallet.balance;
+    })
 
 });

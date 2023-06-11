@@ -1,4 +1,5 @@
 import { ProtectedRoutes } from "$lib/const";
+import CryptoJS from 'crypto-js'
 
 class System {
     private constructor() { }
@@ -26,6 +27,18 @@ class System {
     public static randomString(length: number, current?: string): string {
         current = current ? current : '';
         return length ? System.randomString(--length, "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz".charAt(Math.floor(Math.random() * 60)) + current) : current;
+    }
+
+    public static hash(text: string) {
+        return CryptoJS.SHA256(text).toString(CryptoJS.enc.Hex)
+    }
+
+    public static encryptAES(text: string, password: string) {
+        return CryptoJS.AES.encrypt(text, password).toString();
+    }
+
+    public static decryptAES(text: string, password: string) {
+        return CryptoJS.AES.decrypt(text, password).toString(CryptoJS.enc.Utf8);
     }
 
 }

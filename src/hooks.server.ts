@@ -12,6 +12,7 @@ import { createTRPCHandle } from 'trpc-sveltekit';
 import GithubProvider from '@auth/core/providers/github'
 import GoogleProvider from '@auth/core/providers/google'
 import System from '$lib/modules/System'
+import ServerUser from '$lib/modules/server/User';
 
 const trpcHandle: Handle = createTRPCHandle({ router, createContext });
 
@@ -40,6 +41,8 @@ const authHandle: Handle = SvelteKitAuth({
             }
 
             try {
+                const wallet = await ServerUser.getWalletByUserId(user.id);
+                session.user.wallet = wallet;
             } catch (e) {
                 console.log(`[hooks][callbacks][session]`, e, 'error')
             }
@@ -49,6 +52,12 @@ const authHandle: Handle = SvelteKitAuth({
     },
     events: {
         async createUser({ user }) {
+            try {
+                await ServerUser.createWallet(user.id)
+            } catch (e) {
+                console.log(`[hooks][events][createUser][createWallet]`, e, 'error')
+            }
+
         }
     }
 })
@@ -80,7 +89,9 @@ const protectedRouteHandle: Handle = async ({ event, resolve }) => {
 const onBoardingHandle: Handle = async ({ event, resolve }) => {
     const user = event.locals.user;
 
-    if (user && !user.username && event.url.pathname !== "/onboarding" && !event.url.pathname.startsWith("/trpc")) {
+    console.log('?', event.url.pathname, user !== null, !user?.username, !event.url.pathname.startsWith("/onboarding"), !event.url.pathname.startsWith("/trpc"))
+
+    if (user !== null & !user?.username && !event.url.pathname.startsWith("/onboarding") && !event.url.pathname.startsWith("/trpc")) {
         const fromUrl = event.url.pathname + (event.url.searchParams.get("redirectTo") || "");
         throw redirect(301, `/onboarding?redirectTo=${fromUrl}`);
     }

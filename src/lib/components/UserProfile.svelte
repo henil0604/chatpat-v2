@@ -19,6 +19,7 @@
     import { Button } from "$components/ui/button";
     import { loading } from "$lib/store";
     import { signOut } from "@auth/sveltekit/client";
+    import UserWalletBalanceIndicator from "$components/UserWalletBalanceIndicator.svelte";
 
     const user = $page.data.user!;
 
@@ -88,6 +89,10 @@
                                 value={user.email}
                             />
                         </div>
+
+                        <UserWalletBalanceIndicator />
+
+                        <div class="mt-3" />
                         <Button
                             on:click={handleSignout}
                             class="w-fit"

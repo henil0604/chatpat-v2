@@ -1,5 +1,8 @@
 <script lang="ts">
     import { browser } from "$app/environment";
+    import { goto } from "$app/navigation";
+    import { page } from "$app/stores";
+    import CoinIndicator from "$components/CoinIndicator.svelte";
     import ErrorCardGenerator from "$components/ErrorCardGenerator.svelte";
     import { Button } from "$components/ui/button";
     import {
@@ -11,9 +14,13 @@
     import { Input } from "$components/ui/input";
     import { Label } from "$components/ui/label";
     import { RadioGroup, RadioGroupItem } from "$components/ui/radio-group";
-    import { REGEX } from "$lib/const";
+    import { CODE, COST, REGEX } from "$lib/const";
+    import Store from "$lib/modules/Store";
+    import { loading } from "$lib/store";
     import { trpc } from "$trpc/client";
     import { debounce } from "lodash-es";
+
+    const user = $page.data.user!;
 
     let error: any = null;
 
@@ -50,12 +57,39 @@
         (visibility.value === "private" && password.value.trim() !== "") ||
         visibility.value !== "private";
 
-    $: canSubmit = roomName.valid && !roomName.checking && passwordValid;
+    $: hasEnoughMoney = user.wallet.balance >= cost;
 
-    $: console.log("canSubmit?", canSubmit);
-    $: console.log("passwordValid?", passwordValid);
+    $: canSubmit =
+        roomName.valid && !roomName.checking && passwordValid && hasEnoughMoney;
 
-    function handleCreate() {}
+    $: cost =
+        COST.CREATE_ROOM[
+            visibility.value.toUpperCase() as keyof typeof COST.CREATE_ROOM
+        ];
+
+    async function handleCreate() {
+        $loading = true;
+        const createResponse = await trpc().room.create.query({
+            roomName: roomName.value,
+            visibility: visibility.value,
+            password: password.value,
+        });
+
+        Store.refetchUserWalletBalance();
+
+        if (createResponse.error) {
+            error = {
+                title: "OOPS!",
+                message: `${createResponse.message} (CODE: ${createResponse.code})`,
+            };
+        }
+
+        if (createResponse.code === CODE.DONE) {
+            goto(`/r/${roomName.value}`);
+        }
+
+        $loading = false;
+    }
 
     if (browser) {
         checkRoomname();
@@ -132,6 +166,18 @@
                     {/if}
                 </div>
             {/if}
+
+            <div class="mt-5" />
+            <blockquote
+                class="mt-6 border-l-2 pl-4 flex gap-2 items-center"
+                class:text-red-500={!hasEnoughMoney}
+            >
+                {#if hasEnoughMoney}
+                    This action will cost <CoinIndicator amount={cost} />
+                {:else}
+                    Not enough coins! you need <CoinIndicator amount={cost} />
+                {/if}
+            </blockquote>
 
             <div class="mt-5" />
 

@@ -2,6 +2,8 @@ export const TWITTER_HANDLE_LINK = "https://twitter.com/realchatpat";
 export const EMAIL_HANDLE = "chatpat@henil.xyz";
 
 export const ProtectedRoutes = [
+    '/explore',
+    '/create'
 ]
 
 export const REGEX = {
@@ -11,5 +13,16 @@ export const REGEX = {
 export const CODE = {
     INVALID: 'INVALID',
     ERROR: 'ERROR',
-    DONE: 'DONE'
+    DONE: 'DONE',
+    NOT_ENOUGH_COINS: 'NOT_ENOUGH_COINS'
+}
+
+export const INITIAL_WALLET_BALANCE = 95;
+
+export const COST = {
+    CREATE_ROOM: {
+        PUBLIC: 30,
+        UNLISTED: 60,
+        PRIVATE: 100,
+    }
 }

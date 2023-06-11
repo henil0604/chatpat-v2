@@ -12,6 +12,7 @@
     import LoginButton from "$components/LoginButton.svelte";
     import UserProfile from "$components/UserProfile.svelte";
     import { fly, slide } from "svelte/transition";
+    import UserWalletBalanceIndicator from "$components/UserWalletBalanceIndicator.svelte";
 
     interface Action {
         name: string;
@@ -56,8 +57,10 @@
             {/each}
         </div>
         <!-- Footer -->
-        <div class="h-fit flex justify-end">
-            <User>
+        <div class="h-fit flex flex-col items-center justify-end">
+            <User let:user>
+                <UserWalletBalanceIndicator />
+
                 <div class="flex-center w-full h-fit py-2">
                     <UserProfile />
                 </div>
@@ -74,6 +77,7 @@
     </div>
 </div>
 
+<!-- Mobile Bar -->
 <div class="md:hidden w-full h-fit border-b">
     <div class="flex min-h-[50px] w-full justify-between">
         <!-- HEAD -->
@@ -89,7 +93,11 @@
         <!-- content -->
         <div class="flex-grow h-full" />
         <!-- footer -->
-        <div class="w-fit flex-center px-2">
+        <div class="w-fit flex-center gap-1 px-2">
+            <User let:user>
+                <UserWalletBalanceIndicator />
+            </User>
+
             <Button
                 on:click={() => (isDrawerOpen = !isDrawerOpen)}
                 size="sm"
@@ -101,6 +109,7 @@
     </div>
 </div>
 
+<!-- Drawer -->
 {#if isDrawerOpen}
     <!-- Wrapper -->
     <div
@@ -131,7 +140,7 @@
             <div class="flex-grow overflow-y-auto">
                 {#each actions as action}
                     <Button
-                    on:click={()=>isDrawerOpen = false}
+                        on:click={() => (isDrawerOpen = false)}
                         href={action.href}
                         class="flex justify-start gap-3 w-full rounded-none py-7 text-xl {$page
                             .url.pathname === action.href
