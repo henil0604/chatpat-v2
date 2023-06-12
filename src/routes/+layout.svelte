@@ -31,7 +31,7 @@
 {/if}
 
 <TooltipProvider>
-    <div class="flex w-full h-full max-md:flex-col">
+    <div class="flex max-w-screen max-h-screen max-md:flex-col">
         <User>
             {#if isNavigationExcluded === false}
                 <NavigationBar
@@ -55,6 +55,8 @@
                 />
             {/if}
         </User>
-        <slot />
+        <div class="w-full min-h-full overflow-y-auto">
+            <slot />
+        </div>
     </div>
 </TooltipProvider>

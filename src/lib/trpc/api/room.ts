@@ -4,6 +4,8 @@ import { authMiddleware } from "$trpc/middlewares/auth";
 import { CODE, COST } from "$lib/const";
 import ServerRoom from "$lib/modules/server/Room";
 import ServerUser from "$lib/modules/server/User";
+import { error } from "@sveltejs/kit";
+import { TRPCError } from "@trpc/server";
 
 export const roomRouter = t.router({
     isValidRoomname: t.procedure.use(authMiddleware).input(z.object({ roomName: z.string() })).query(async ({ input, ctx }) => {
@@ -69,5 +71,39 @@ export const roomRouter = t.router({
             error: false,
             message: 'Room created'
         };
+    }),
+
+    delete: t.procedure.use(authMiddleware).input(z.object({
+        roomName: z.string()
+    })).query(async ({ input, ctx }) => {
+
+        const user = ctx.user!;
+
+        const room = await ServerRoom.getByName(input.roomName);
+
+        if (!room) {
+            throw new TRPCError({ code: 'NOT_FOUND' })
+        }
+
+        if (room?.ownerId !== user.id) {
+            throw new TRPCError({ code: 'UNAUTHORIZED' })
+        }
+
+        try {
+            await ServerRoom.deleteByName(input.roomName);
+        } catch (e) {
+            return {
+                error: true,
+                code: CODE.ERROR,
+                message: "Something went wrong"
+            }
+        }
+
+        return {
+            error: false,
+            code: CODE.DONE,
+            message: "Room deleted"
+        }
     })
+
 });

@@ -3,6 +3,8 @@ import { t } from '$trpc/t'
 import { authMiddleware } from "$trpc/middlewares/auth";
 import { CODE } from "$lib/const";
 import ServerUser from "$lib/modules/server/User";
+import type { error } from "@sveltejs/kit";
+import type { Room } from "@prisma/client";
 
 export const userRouter = t.router({
     isValidUsername: t.procedure.use(authMiddleware).input(z.object({ username: z.string() })).query(async ({ input, ctx }) => {
@@ -40,6 +42,30 @@ export const userRouter = t.router({
     getUserWalletBalance: t.procedure.use(authMiddleware).query(async ({ input, ctx }) => {
         const user = ctx.user!;
         return user.wallet.balance;
-    })
+    }),
+    getRooms: t.procedure.use(authMiddleware).query(async ({ input, ctx }) => {
+        const user = ctx.user!;
+
+        let rooms: Room[];
+
+        try {
+            rooms = await ServerUser.getRooms(user.id as string);
+        } catch (e) {
+            return {
+                error: true,
+                code: CODE.ERROR,
+                message: 'Something went wrong',
+                data: null
+            }
+        }
+
+        return {
+            code: CODE.DONE,
+            error: false,
+            data: rooms || [],
+            message: "Rooms found"
+        }
+
+    }),
 
 });

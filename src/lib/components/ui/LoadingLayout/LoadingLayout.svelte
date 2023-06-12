@@ -5,7 +5,7 @@
 </script>
 
 <div
-    class="flex-center fixed top-0 left-0 backdrop-blur-sm z-[999999] w-full h-full"
+    class="flex-center absolute top-0 left-0 backdrop-blur-sm z-[999999] w-full h-full"
 >
     <Spinner {size} />
 </div>

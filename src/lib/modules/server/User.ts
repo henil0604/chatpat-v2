@@ -85,6 +85,14 @@ class ServerUser {
         })
     }
 
+    public static async getRooms(ownerId: string) {
+        return prisma.room.findMany({
+            where: {
+                ownerId: ownerId
+            }
+        })
+    }
+
 }
 
 export default ServerUser;

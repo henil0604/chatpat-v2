@@ -57,5 +57,21 @@ export default class ServerRoom {
         return room;
     }
 
+    public static async getByName(roomName: string) {
+        return prisma.room.findFirst({
+            where: {
+                name: roomName
+            }
+        });
+    }
+
+    public static async deleteByName(roomName: string) {
+        return prisma.room.delete({
+            where: {
+                name: roomName
+            }
+        })
+    }
+
 
 }
