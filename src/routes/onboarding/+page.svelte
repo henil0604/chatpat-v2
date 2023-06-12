@@ -76,8 +76,10 @@
     }
 </script>
 
-<div class="w-full h-full flex justify-center md:py-10 md:pt-32">
-    <Card class="min-w-[400px] h-fit max-md:min-w-full max-md:min-h-full">
+<div class="w-full min-h-screen flex justify-center md:py-10 md:pt-32">
+    <Card
+        class="min-w-[400px] h-fit max-md:min-w-full max-md:min-h-screen max-md:rounded-none max-md:border-none"
+    >
         <CardHeader>
             <CardTitle
                 >Welcome Aboard, <span class="highlight italic"

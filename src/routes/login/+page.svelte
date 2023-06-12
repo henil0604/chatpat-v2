@@ -17,7 +17,7 @@
     }
 </script>
 
-<div class="w-full h-full flex-center">
+<div class="w-full min-h-screen flex-center">
     <Card>
         <CardHeader>
             <CardTitle>Login With...</CardTitle>

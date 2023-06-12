@@ -11,9 +11,11 @@
         CardTitle,
     } from "$components/ui/card";
     import { Skeleton } from "$components/ui/skeleton";
+    import { Button } from "$components/ui/button";
+    import Icon from "@iconify/svelte";
 
     let roomsLoading = false;
-    let rooms: RouterOutput["user"]["getRooms"]["data"] = [];
+    let rooms: RouterOutput["user"]["getRooms"]["data"] = null;
     let error: any = null;
 
     async function fetchRooms() {
@@ -45,9 +47,22 @@
     <hr class="my-2 mb-4" />
     <div class="grid-container">
         {#if roomsLoading === false && rooms}
-            {#each rooms as room}
-                <MyRoomCard on:delete={handleDelete} {room} />
-            {/each}
+            {#if rooms.length === 0}
+                <div
+                    class="italic text-center col-span-full flex items-center flex-col gap-2"
+                >
+                    You don't have any rooms yet. <Button
+                        href="/create"
+                        class="flex gap-1 w-fit not-italic"
+                        size="sm"
+                        ><Icon class="text-lg" icon="mdi:plus" /> Create now!</Button
+                    >
+                </div>
+            {:else}
+                {#each rooms as room}
+                    <MyRoomCard on:delete={handleDelete} {room} />
+                {/each}
+            {/if}
         {:else}
             {#each Array(8) as _}
                 <Card>
@@ -78,7 +93,7 @@
         */
         --grid-layout-gap: 10px;
         --grid-column-count: 5;
-        --grid-item--min-width: 300px;
+        --grid-item--min-width: 270px;
 
         /**
         * Calculated values.

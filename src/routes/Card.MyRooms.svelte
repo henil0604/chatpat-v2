@@ -57,7 +57,7 @@
             >Created {moment(room.createdAt).fromNow()}</CardDescription
         >
     </CardHeader>
-    <CardContent class="p-5 ">
+    <CardContent class="p-5">
         <div class="flex justify-end gap-1">
             <!-- TODO: add this after AlertDialogAction has on:click event exposed in shadcn-svelte -->
 
