@@ -52,7 +52,16 @@
     {/if}
 
     <CardHeader class="p-5">
-        <CardTitle>{room.name}</CardTitle>
+        <CardTitle class="flex gap-2">
+            {room.name}
+            {#if room.visibility === "public"}
+                <Icon icon="material-symbols:public" />
+            {:else if room.visibility === "unlisted"}
+                <Icon icon="heroicons:paper-clip-solid" />
+            {:else}
+                <Icon icon="ic:twotone-lock" />
+            {/if}
+        </CardTitle>
         <CardDescription class="italic"
             >Created {moment(room.createdAt).fromNow()}</CardDescription
         >
