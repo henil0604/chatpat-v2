@@ -6,6 +6,7 @@ import ServerRoom from "$lib/modules/server/Room";
 import ServerUser from "$lib/modules/server/User";
 import { error } from "@sveltejs/kit";
 import { TRPCError } from "@trpc/server";
+import ServerChat from "$lib/modules/server/Chat";
 
 export const roomRouter = t.router({
     isValidRoomname: t.procedure.use(authMiddleware).input(z.object({ roomName: z.string() })).query(async ({ input, ctx }) => {
@@ -104,6 +105,63 @@ export const roomRouter = t.router({
             code: CODE.DONE,
             message: "Room deleted"
         }
-    })
+    }),
+
+    doesExists: t.procedure.use(authMiddleware).input(z.object({
+        roomName: z.string()
+    })).query(async ({ input, ctx }) => {
+
+        let room: Awaited<ReturnType<typeof ServerRoom["getByName"]>>;
+
+        try {
+            room = await ServerRoom.getByName(input.roomName);
+        } catch (e) {
+            throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+        }
+
+        if (!room) {
+            return {
+                error: true,
+                code: CODE.DONE,
+                message: "Room does not exists",
+                exists: false,
+            }
+        }
+
+        return {
+            error: false,
+            code: CODE.DONE,
+            message: "Room exists",
+            exists: true
+        }
+    }),
+
+    sendMessage: t.procedure.use(authMiddleware).input(z.object({
+        id: z.string(),
+        message: z.string(),
+        createdAt: z.number(),
+        roomName: z.string()
+    })).query(async ({ input, ctx }) => {
+
+        const user = ctx.user!;
+
+        const room = await ServerRoom.getByName(input.roomName);
+
+        if (!room) {
+            throw new TRPCError({
+                code: 'NOT_FOUND'
+            });
+        }
+
+        const message = await ServerChat.create(input.message, user.username as string, input.roomName, input.createdAt, input.id);
+
+        return {
+            code: CODE.DONE,
+            message: 'Message sent',
+            data: {
+                id: message.id
+            }
+        }
+    }),
 
 });

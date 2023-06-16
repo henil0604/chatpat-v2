@@ -1,4 +1,9 @@
 const { fontFamily } = require("tailwindcss/defaultTheme")
+
+function hslVar(name) {
+  return `hsl(var(--${name}))`;
+};
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
@@ -46,6 +51,19 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        message: {
+          'received': "hsl(var(--received-message-box-color))",
+          'received-box-foreground': "hsl(var(--received-message-box-color-foreground))",
+          'sent-box': "hsl(var(--sent-message-box-color))",
+          'sent-box-foreground': "hsl(var(--sent-message-box-color-foreground))",
+          'sent-username': "hsl(var(--sent-message-username))",
+          'received-username': "hsl(var(--received-message-username))",
+        },
+        chat: {
+          section: {
+            label: hslVar('chat-section-label')
+          }
+        }
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -57,7 +75,7 @@ module.exports = {
       }
     }
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require('tailwind-scrollbar')],
   safelist: [
     {
       pattern: /text-(.*)/

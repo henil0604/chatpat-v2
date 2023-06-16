@@ -3,7 +3,8 @@ export const EMAIL_HANDLE = "chatpat@henil.xyz";
 
 export const ProtectedRoutes = [
     '/explore',
-    '/create'
+    '/create',
+    '/r/*'
 ]
 
 export const REGEX = {

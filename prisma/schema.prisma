@@ -48,6 +48,17 @@ model User {
   sessions      Session[]
   Room          Room[]
   Wallet        Wallet[]
+  Chat          Chat[]
+}
+
+model Wallet {
+  id      String @id @default(cuid()) @map("_id")
+  balance Float
+  owner   User   @relation(fields: [ownerId], references: [id])
+  ownerId String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Room {
@@ -60,13 +71,20 @@ model Room {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  Chat      Chat[]
+
+  @@unique([id, name])
 }
 
-model Wallet {
-  id      String @id @default(cuid()) @map("_id")
-  balance Float
-  owner   User   @relation(fields: [ownerId], references: [id])
-  ownerId String @unique
+model Chat {
+  id        String   @id @default(cuid()) @map("_id")
+  content   String
+  owner     User     @relation(fields: [ownerId], references: [id])
+  ownerId   String
+  room      Room     @relation(fields: [roomId, roomName], references: [id, name])
+  roomId    String
+  roomName  String
+  reactions String[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

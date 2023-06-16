@@ -73,5 +73,19 @@ export default class ServerRoom {
         })
     }
 
+    public static async getSortedChats(roomName: string, take?: number) {
+        return prisma.chat.findMany({
+            where: {
+                roomName
+            },
+            orderBy: {
+                createdAt: "asc"
+            },
+            take: take ? -take : undefined,
+            include: {
+                owner: true
+            }
+        })
+    }
 
 }

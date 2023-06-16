@@ -13,6 +13,7 @@
     import UserProfile from "$components/UserProfile.svelte";
     import { fly, slide } from "svelte/transition";
     import UserWalletBalanceIndicator from "$components/UserWalletBalanceIndicator.svelte";
+    import JoinRoomButton from "$components/JoinRoomButton.svelte";
 
     interface Action {
         name: string;
@@ -47,7 +48,7 @@
                             class="w-full rounded-none py-7 text-2xl {$page.url
                                 .pathname === action.href
                                 ? 'bg-blue-600 text-white hover:bg-blue-600 '
-                                : 'bg-secondary text-white hover:bg-secondary hover:text-secondary-foreground'}"
+                                : 'bg-secondary text-foreground hover:bg-secondary hover:text-secondary-foreground'}"
                         >
                             <Icon icon={action.icon} />
                         </Button>
@@ -57,11 +58,12 @@
             {/each}
         </div>
         <!-- Footer -->
-        <div class="h-fit flex flex-col items-center justify-end">
+        <div class="h-fit flex flex-col items-center justify-end gap-1">
             <User let:user>
                 <UserWalletBalanceIndicator />
+                <JoinRoomButton class="w-full" />
 
-                <div class="flex-center w-full h-fit py-2">
+                <div class="flex-center w-full h-fit py-1">
                     <UserProfile />
                 </div>
 
@@ -96,6 +98,7 @@
         <div class="w-fit flex-center gap-1 px-2">
             <User let:user>
                 <UserWalletBalanceIndicator />
+                <JoinRoomButton class="w-fit" />
             </User>
 
             <Button
@@ -145,7 +148,7 @@
                         class="flex justify-start gap-3 w-full border-y rounded-none py-4 text-base {$page
                             .url.pathname === action.href
                             ? 'bg-blue-600 text-white hover:bg-blue-600'
-                            : 'bg-secondary text-white hover:bg-secondary hover:text-secondary-foreground'}"
+                            : 'bg-secondary text-foreground hover:bg-secondary hover:text-secondary-foreground'}"
                     >
                         <Icon icon={action.icon} />
                         {action.name}

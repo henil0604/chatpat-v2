@@ -1,4 +1,5 @@
 import { ProtectedRoutes } from "$lib/const";
+import type { chats } from "$lib/store/room";
 import CryptoJS from 'crypto-js'
 
 class System {
@@ -39,6 +40,58 @@ class System {
 
     public static decryptAES(text: string, password: string) {
         return CryptoJS.AES.decrypt(text, password).toString(CryptoJS.enc.Utf8);
+    }
+
+    public static isToday(date: Date) {
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const d = date.getDate();
+
+        const now = new Date();
+        if (now.getDate() === d && now.getMonth() === month && now.getFullYear() === year) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static transformChats(chats: chats) {
+        interface block {
+            label: string,
+            sections: section[]
+        }
+        interface section {
+            owner: FlatArray<chats, 1>["owner"],
+            chats: chats
+        }
+
+        let blocks: block[] = [];
+        console.log(chats);
+
+        chats.forEach(chat => {
+            const label = System.isToday(new Date(chat.createdAt)) ? "Today" : new Date(chat.createdAt).toDateString()
+            let block = blocks.find(b => b.label === label);
+
+            if (!block) {
+                block = {
+                    label,
+                    sections: []
+                }
+                blocks.push(block);
+            }
+
+            let sectionIndex = block.sections.findLastIndex(s => s.owner.id === chat.owner.id);
+            let section = block.sections[sectionIndex];
+            let nextSection = block.sections[sectionIndex + 1];
+            if (!section || (nextSection && nextSection.owner.id != section.owner.id)) {
+                section = { owner: chat.owner, chats: [] };
+                block.sections.push(section);
+            }
+
+            section.chats.push(chat);
+        });
+
+        return blocks
     }
 
 }

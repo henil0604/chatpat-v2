@@ -19,11 +19,13 @@
         Store.refetchUserWalletBalance();
     }
 
-    let excludedNavigationPaths = ["/onboarding", "/login"];
+    let excludedNavigationPaths = ["/onboarding", "/login", "/r"];
 
-    $: isNavigationExcluded = excludedNavigationPaths.includes(
-        $page.url.pathname
-    );
+    $: isNavigationExcluded = excludedNavigationPaths
+        .map((e) => {
+            return $page.url.pathname.startsWith(e);
+        })
+        .some(Boolean);
 </script>
 
 {#if $loading}
@@ -31,7 +33,7 @@
 {/if}
 
 <TooltipProvider>
-    <div class="flex max-w-screen max-h-screen max-md:flex-col">
+    <div class="flex w-full h-full max-md:flex-col">
         <User>
             {#if isNavigationExcluded === false}
                 <NavigationBar
@@ -55,7 +57,7 @@
                 />
             {/if}
         </User>
-        <div class="w-full min-h-full overflow-y-auto">
+        <div class="w-full min-h-full max-h-full">
             <slot />
         </div>
     </div>

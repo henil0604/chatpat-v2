@@ -9,7 +9,7 @@
 </script>
 
 <Tooltip>
-    <TooltipTrigger class="w-full h-fit">
+    <TooltipTrigger class="w-full h-full">
         <slot />
     </TooltipTrigger>
     <TooltipContent {side}>{message}</TooltipContent>

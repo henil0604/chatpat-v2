@@ -1,5 +1,6 @@
 // See https://kit.svelte.dev/docs/types#app
 
+import type ServerRoom from "$lib/modules/server/Room";
 import type { DefaultSession, Session } from "@auth/core/types";
 import type { Wallet } from "@prisma/client";
 
@@ -11,7 +12,7 @@ declare global {
 			user?: Session["user"] | null
 		}
 		interface PageData {
-			user?: Locals["user"]
+			user?: Locals["user"],
 		}
 		// interface Platform {}
 	}
