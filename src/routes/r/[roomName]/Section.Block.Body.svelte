@@ -13,7 +13,9 @@
     $: owner = section.owner.id === user.id;
 </script>
 
-<div class="my-2 px-5 flex {owner ? 'flex-row-reverse' : 'flex-row'}">
+<div
+    class="my-2 px-4 max-md:px-2 flex {owner ? 'flex-row-reverse' : 'flex-row'}"
+>
     <Avatar class="w-8 h-8 max-md:w-6 max-md:h-6">
         <AvatarImage
             src={section.owner.image || ""}
