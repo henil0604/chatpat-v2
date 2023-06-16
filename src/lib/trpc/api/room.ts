@@ -7,6 +7,7 @@ import ServerUser from "$lib/modules/server/User";
 import { error } from "@sveltejs/kit";
 import { TRPCError } from "@trpc/server";
 import ServerChat from "$lib/modules/server/Chat";
+import ServerCache from "$lib/modules/server/Cache";
 
 export const roomRouter = t.router({
     isValidRoomname: t.procedure.use(authMiddleware).input(z.object({ roomName: z.string() })).query(async ({ input, ctx }) => {
@@ -145,7 +146,9 @@ export const roomRouter = t.router({
 
         const user = ctx.user!;
 
-        const room = await ServerRoom.getByName(input.roomName);
+        const room = await ServerCache.cachify(`r-${input.roomName}`, () => ServerRoom.getByName(input.roomName), { timeout: 1000 * 60 * 1 });
+
+        console.log(room)
 
         if (!room) {
             throw new TRPCError({

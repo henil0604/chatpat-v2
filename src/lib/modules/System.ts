@@ -66,7 +66,6 @@ class System {
         }
 
         let blocks: block[] = [];
-        console.log(chats);
 
         chats.forEach(chat => {
             const label = System.isToday(new Date(chat.createdAt)) ? "Today" : new Date(chat.createdAt).toDateString()

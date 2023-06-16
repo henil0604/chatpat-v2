@@ -1,6 +1,6 @@
 {
-  "name": "svelteboom",
-  "version": "0.0.1",
+  "name": "chatpat",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "vite dev",
@@ -18,7 +18,9 @@
     "@types/crypto-js": "^4.1.1",
     "@types/lodash-es": "^4.17.7",
     "@types/moment": "^2.13.0",
+    "@vercel/kv": "^0.2.1",
     "autoprefixer": "^10.4.14",
+    "chalk": "^5.2.0",
     "postcss": "^8.4.23",
     "postcss-load-config": "^4.0.1",
     "prisma": "^4.15.0",

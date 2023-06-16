@@ -56,7 +56,6 @@
             },
         ];
 
-        console.log(id);
         try {
             const sendResponse = await trpc().room.sendMessage.query({
                 id,

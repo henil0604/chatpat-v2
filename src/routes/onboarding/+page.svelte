@@ -56,7 +56,6 @@
             username: username.value,
         });
 
-        console.log(submit);
         if (submit.error) {
             error = {
                 title: "OOPS!",

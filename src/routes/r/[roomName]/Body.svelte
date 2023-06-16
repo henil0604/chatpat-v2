@@ -2,8 +2,6 @@
     import System from "$lib/modules/System";
     import { chatsStore } from "$lib/store/room";
     import Block from "./Block.Body.svelte";
-
-    console.log(System.transformChats($chatsStore));
 </script>
 
 <div
