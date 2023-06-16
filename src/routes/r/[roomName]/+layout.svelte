@@ -47,7 +47,7 @@
 {/if}
 
 {#if $roomAccess}
-    <div class="w-full h-full flex-center flex-col py-20 max-md:p-0">
+    <div class="w-full h-full flex-center flex-col py-10 max-md:p-0">
         <slot />
     </div>
 {/if}
