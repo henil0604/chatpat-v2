@@ -9,6 +9,7 @@
     import RoomNotFound from "./RoomNotFound.svelte";
     import { onDestroy } from "svelte";
     import { loading } from "$lib/store";
+    import System from "$lib/modules/System";
 
     const room: Awaited<ReturnType<(typeof ServerRoom)["getByName"]>> =
         $page.data.room;
@@ -21,6 +22,10 @@
         $chatsStore = chats;
         if (room?.visibility !== "private") {
             $roomAccess = true;
+        }
+
+        if (room) {
+            System.initRoomPusherChannel(room.name);
         }
     }
 

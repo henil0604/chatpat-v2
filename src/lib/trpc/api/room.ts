@@ -8,6 +8,8 @@ import { error } from "@sveltejs/kit";
 import { TRPCError } from "@trpc/server";
 import ServerChat from "$lib/modules/server/Chat";
 import ServerCache from "$lib/modules/server/Cache";
+import Logger from "$lib/modules/Logger";
+import pusher from "$lib/modules/server/pusher";
 
 export const roomRouter = t.router({
     isValidRoomname: t.procedure.use(authMiddleware).input(z.object({ roomName: z.string() })).query(async ({ input, ctx }) => {
@@ -154,6 +156,25 @@ export const roomRouter = t.router({
             throw new TRPCError({
                 code: 'NOT_FOUND'
             });
+        }
+
+        // Pusher Event trigger
+        try {
+            const push = await pusher.trigger(`r-${room.name}`, "new-chat", {
+                id: input.id,
+                content: input.message,
+                createdAt: new Date(input.createdAt),
+                owner: user,
+                room: room,
+                ownerId: user.id as string,
+                roomId: room.id
+            })
+        } catch (error) {
+            Logger.log("error", `{[r-${room.name}][send-message][pusher]}`);
+            throw new TRPCError({
+                code: 'INTERNAL_SERVER_ERROR',
+                message: 'Something went wrong while broadcasting'
+            })
         }
 
         const message = await ServerChat.create(input.message, user.username as string, input.roomName, input.createdAt, input.id);

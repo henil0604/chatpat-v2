@@ -1,6 +1,11 @@
 import { ProtectedRoutes } from "$lib/const";
+import { userStore } from "$lib/store";
+import { roomChannel } from "$lib/store/pusher";
 import type { chats } from "$lib/store/room";
 import CryptoJS from 'crypto-js'
+import { get } from "svelte/store";
+import pusher from "$lib/modules/pusher";
+import ClientRoom from "./Room";
 
 class System {
     private constructor() { }
@@ -91,6 +96,24 @@ class System {
         });
 
         return blocks
+    }
+
+    public static initRoomPusherChannel(roomName: string) {
+        let channel = get(roomChannel);
+        if (channel) {
+            channel.disconnect();
+            roomChannel.set(null);
+        }
+        const user = get(userStore);
+
+        channel = pusher.subscribe(`r-${roomName}`);
+
+        channel.bind("new-chat", ClientRoom.newChatHandler);
+
+        // TODO: remove in production
+        (window as any).roomChannel = channel;
+
+        roomChannel.set(channel);
     }
 
 }

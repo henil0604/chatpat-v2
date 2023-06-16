@@ -8,7 +8,7 @@ interface CachifyOptions {
 export default class ServerCache {
     private constructor() { }
 
-    public static async cachify<T>(key: string, fallback: any, options?: Partial<CachifyOptions>): Promise<T> {
+    public static async cachify<T>(key: string, fallback: () => T, options?: Partial<CachifyOptions>): Promise<T> {
         const startTime = Date.now();
         let returnData: T | null = null;
         if (!options?.force) {
