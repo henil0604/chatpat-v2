@@ -27,3 +27,7 @@ export const COST = {
         PRIVATE: 100,
     }
 }
+
+export const REWARD = {
+    MESSAGE_SEND: 0.2
+}

@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { t } from '$trpc/t'
 import { authMiddleware } from "$trpc/middlewares/auth";
-import { CODE, COST } from "$lib/const";
+import { CODE, COST, REWARD } from "$lib/const";
 import ServerRoom from "$lib/modules/server/Room";
 import ServerUser from "$lib/modules/server/User";
 import { error } from "@sveltejs/kit";
@@ -176,6 +176,8 @@ export const roomRouter = t.router({
         }
 
         const message = await ServerChat.create(input.message, user.username as string, input.roomName, input.createdAt, input.id);
+
+        await ServerUser.changeWalletBalance(user.id as string, REWARD.MESSAGE_SEND);
 
         return {
             code: CODE.DONE,

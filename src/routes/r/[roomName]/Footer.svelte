@@ -2,6 +2,7 @@
     import { page } from "$app/stores";
     import { Button } from "$components/ui/button";
     import { Input } from "$components/ui/input";
+    import Store from "$lib/modules/Store";
     import System from "$lib/modules/System";
     import {
         chatsMetaStore,
@@ -81,6 +82,8 @@
             }
             return e;
         });
+
+        Store.refetchUserWalletBalance();
 
         $isMessageBeingSent = false;
     }
