@@ -8,7 +8,7 @@
 
 <div
     in:slide
-    class="w-[500px] h-full flex flex-col border rounded-md shadow-xl max-md:min-w-none max-md:w-full max-md:h-full"
+    class="w-full h-full flex flex-col border rounded-md shadow-xl max-md:min-w-none max-md:w-full max-md:h-full"
 >
     <Header />
     <Body />
