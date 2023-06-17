@@ -1,5 +1,6 @@
 import { getChat, type chat, addChat, chatsMetaStore } from "$lib/store/room";
 import { get } from 'svelte/store'
+import System from "./System";
 
 export default class ClientRoom {
     private constructor() { }
@@ -19,7 +20,6 @@ export default class ClientRoom {
             Date.now() - new Date(chat.createdAt).getTime()
         );
 
-
         if (getChat(chat.id).chat) {
             chatsMetaStore.set(get(chatsMetaStore).map((e) => {
                 if (e.id === chat.id) {
@@ -28,6 +28,10 @@ export default class ClientRoom {
                 return e;
             }));
             return;
+        }
+
+        if (document.hidden) {
+            System.playNotificationAudio()
         }
 
         addChat({

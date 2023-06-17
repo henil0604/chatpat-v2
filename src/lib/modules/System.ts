@@ -116,6 +116,12 @@ class System {
         roomChannel.set(channel);
     }
 
+    public static playNotificationAudio() {
+        let audio = new Audio('/audio/ding.mp3');
+        audio.volume = 0.5;
+        audio.play();
+    }
+
 }
 
 export default System;
