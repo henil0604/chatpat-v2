@@ -1,4 +1,5 @@
-import { getChat, type chat, addChat } from "$lib/store/room";
+import { getChat, type chat, addChat, chatsMetaStore } from "$lib/store/room";
+import { get } from 'svelte/store'
 
 export default class ClientRoom {
     private constructor() { }
@@ -20,6 +21,12 @@ export default class ClientRoom {
 
 
         if (getChat(chat.id).chat) {
+            chatsMetaStore.set(get(chatsMetaStore).map((e) => {
+                if (e.id === chat.id) {
+                    e.sending = false;
+                };
+                return e;
+            }));
             return;
         }
 

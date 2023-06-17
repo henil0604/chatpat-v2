@@ -1,5 +1,6 @@
 <script lang="ts">
     import { page } from "$app/stores";
+    import UserWalletBalanceIndicator from "$components/UserWalletBalanceIndicator.svelte";
     import { SimpleTooltip } from "$components/ui/SimpleTooltip";
     import { Badge } from "$components/ui/badge";
     import { Button } from "$components/ui/button";
@@ -29,6 +30,7 @@
     </div>
     <!-- Right -->
     <div class="flex-center gap-1">
+        <UserWalletBalanceIndicator />
         <SimpleTooltip message="Go Idle" side="bottom">
             <Button
                 on:click={() => ($roomAccess = false)}

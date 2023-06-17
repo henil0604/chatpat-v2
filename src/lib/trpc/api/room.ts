@@ -160,7 +160,7 @@ export const roomRouter = t.router({
 
         // Pusher Event trigger
         try {
-            const push = await pusher.trigger(`r-${room.name}`, "new-chat", {
+            const push = pusher.trigger(`r-${room.name}`, "new-chat", {
                 id: input.id,
                 content: input.message,
                 createdAt: new Date(input.createdAt),
