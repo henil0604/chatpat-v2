@@ -150,8 +150,6 @@ export const roomRouter = t.router({
 
         const room = await ServerCache.cachify(`r-${input.roomName}`, () => ServerRoom.getByName(input.roomName), { timeout: 1000 * 60 * 1 });
 
-        console.log(room)
-
         if (!room) {
             throw new TRPCError({
                 code: 'NOT_FOUND'

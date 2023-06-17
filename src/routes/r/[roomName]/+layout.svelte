@@ -10,6 +10,7 @@
     import { onDestroy } from "svelte";
     import { loading } from "$lib/store";
     import System from "$lib/modules/System";
+    import { roomChannel } from "$lib/store/pusher";
 
     const room: Awaited<ReturnType<(typeof ServerRoom)["getByName"]>> =
         $page.data.room;
@@ -33,6 +34,11 @@
         $roomAccess = false;
         $roomStore = null;
         $chatsStore = [];
+
+        if ($roomChannel) {
+            $roomChannel.disconnect();
+            $roomChannel = null;
+        }
     });
 </script>
 
