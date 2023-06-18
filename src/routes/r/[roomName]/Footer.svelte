@@ -112,9 +112,9 @@
     }
 </script>
 
-<div class="flex z-[2]">
+<div class="flex z-[2] p-5 max-md:p-3">
     <Input
-        class="rounded-none !border-t-2 py-6 text-lg outline-none box-border"
+        class="rounded-none rounded-tl-lg rounded-bl-lg border-sky-500 outline-none box-border"
         bind:value={message}
         type="text"
         placeholder="Type Something..."
@@ -122,10 +122,7 @@
             if (e.keyCode === 13) handleSend();
         }}
     />
-    <Button
-        disabled={$isMessageBeingSent}
-        on:click={handleSend}
-        class="rounded-none text-xl px-2 !h-full"
+    <Button on:click={handleSend} class="rounded-none text-xl px-2 !h-full"
         ><Icon icon="mingcute:send-fill" /></Button
     >
 </div>
