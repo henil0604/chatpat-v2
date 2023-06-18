@@ -63,8 +63,18 @@
                     timeStyle: "short",
                 })}
             </div>
-            {#if meta?.sending}
-                <Icon icon="icon-park-outline:timer" />
+            {#if meta}
+                {#if !meta.broadcasted}
+                    <Icon icon="icon-park-outline:timer" />
+                {/if}
+                {#if meta.broadcasted && !meta.stored}
+                    <Icon icon="pixelarticons:check" />
+                {/if}
+                {#if meta.stored}
+                    <Icon icon="material-symbols:check" />
+                {/if}
+            {:else if owner}
+                <Icon icon="material-symbols:check" />
             {/if}
         </div>
     </div>

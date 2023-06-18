@@ -1,6 +1,6 @@
 import { ProtectedRoutes } from "$lib/const";
 import { userStore } from "$lib/store";
-import { roomChannel } from "$lib/store/pusher";
+import { globalChannel, roomChannel } from "$lib/store/pusher";
 import type { chats } from "$lib/store/room";
 import CryptoJS from 'crypto-js'
 import { get } from "svelte/store";
@@ -98,28 +98,49 @@ class System {
         return blocks
     }
 
-    public static initRoomPusherChannel(roomName: string) {
-        let channel = get(roomChannel);
-        if (channel) {
-            channel.disconnect();
-            roomChannel.set(null);
-        }
-        const user = get(userStore);
-
-        channel = pusher.subscribe(`r-${roomName}`);
-
-        channel.bind("new-chat", ClientRoom.newChatHandler);
-
-        // TODO: remove in production
-        (window as any).roomChannel = channel;
-
-        roomChannel.set(channel);
-    }
-
     public static playNotificationAudio() {
         let audio = new Audio('/audio/ding.mp3');
         audio.volume = 0.5;
         audio.play();
+    }
+
+    public static initGlobalPusher() {
+        if (get(globalChannel)) {
+            get(globalChannel)?.disconnect();
+            globalChannel.set(null);
+        }
+
+        const gc = pusher.subscribe("private-global");
+
+        gc.bind("pusher:subscription_succeeded", () => {
+        })
+
+        gc.bind("pusher:subscription_error", console.error);
+
+        globalChannel.set(gc);
+    }
+
+    public static initRoomPusher(roomName: string) {
+        if (get(roomChannel)) {
+            get(roomChannel)?.disconnect();
+            roomChannel.set(null);
+        }
+
+        const rc = pusher.subscribe(`private-r-${roomName}`);
+
+        rc.bind("pusher:subscription_succeeded", () => {
+            console.log(`Subscribed to ${roomName}`);
+        })
+
+        rc.bind("pusher:subscription_error", console.error)
+
+        rc.bind('client-new-chat', ClientRoom.newChatHandler);
+
+        rc.bind("pusher:disconnected", () => {
+            console.log("disconnected")
+        });
+
+        roomChannel.set(rc);
     }
 
 }

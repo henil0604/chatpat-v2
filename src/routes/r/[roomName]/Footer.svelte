@@ -4,6 +4,7 @@
     import { Input } from "$components/ui/input";
     import Store from "$lib/modules/Store";
     import System from "$lib/modules/System";
+    import { roomChannel } from "$lib/store/pusher";
     import {
         chatsMetaStore,
         chatsStore,
@@ -26,25 +27,29 @@
 
         const id = System.randomString(21);
 
+        let data = {
+            id,
+            content: msg,
+            createdAt: new Date(),
+            owner: {
+                id: user.id as string,
+                email: user.email as string,
+                emailVerified: null,
+                image: user.image as string,
+                name: user.name as string,
+                username: user.username as string,
+            },
+            ownerId: user.id as string,
+            roomName: $roomStore.name,
+            reactions: [],
+            roomId: $roomStore.id,
+            updatedAt: new Date(),
+        };
+
         $chatsStore = [
             ...$chatsStore,
             {
-                id,
-                content: msg,
-                createdAt: new Date(),
-                owner: {
-                    id: user.id as string,
-                    email: user.email as string,
-                    emailVerified: null,
-                    image: user.image as string,
-                    name: user.name as string,
-                    username: user.username as string,
-                },
-                ownerId: user.id as string,
-                roomName: $roomStore.name,
-                reactions: [],
-                roomId: $roomStore.id,
-                updatedAt: new Date(),
+                ...data,
             },
         ];
 
@@ -53,9 +58,27 @@
             {
                 id,
                 failed: false,
-                sending: true,
+                stored: false,
+                broadcasted: false,
             },
         ];
+
+        let trigger = $roomChannel?.trigger("client-new-chat", {
+            id: id,
+            content: msg,
+            createdAt: data.createdAt,
+            owner: user,
+            room: $roomStore,
+            ownerId: user.id as string,
+            roomId: $roomStore.id,
+        });
+
+        $chatsMetaStore = $chatsMetaStore.map((e) => {
+            if (e.id === id) {
+                e.broadcasted = trigger || false;
+            }
+            return e;
+        });
 
         try {
             const sendResponse = await trpc().room.sendMessage.query({
@@ -67,7 +90,7 @@
         } catch (e) {
             $chatsMetaStore = $chatsMetaStore.map((e) => {
                 if (e.id === id) {
-                    e.sending = false;
+                    e.stored = false;
                     e.failed = true;
                 }
                 return e;
@@ -78,7 +101,7 @@
 
         $chatsMetaStore = $chatsMetaStore.map((e) => {
             if (e.id === id) {
-                e.sending = false;
+                e.stored = true;
             }
             return e;
         });

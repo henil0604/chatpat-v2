@@ -6,15 +6,20 @@
     import NavigationBar from "$components/ui/NavigationBar/NavigationBar.svelte";
     import { TooltipProvider } from "$components/ui/tooltip";
     import Store from "$lib/modules/Store";
+    import System from "$lib/modules/System";
     import { loading, userStore, userWalletBalance } from "$lib/store";
     import "../app.postcss";
+
+    $: user = $page.data.user;
+
+    $: user && browser && System.initGlobalPusher();
 
     if (browser) {
         navigating.subscribe(() => {
             $loading = $navigating ? true : false;
         });
 
-        $userStore = $page.data.user;
+        $userStore = user;
     }
 
     if (browser) {

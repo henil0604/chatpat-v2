@@ -26,7 +26,7 @@
         }
 
         if (room) {
-            System.initRoomPusherChannel(room.name);
+            System.initRoomPusher(room.name);
         }
     }
 
@@ -35,7 +35,9 @@
         $roomStore = null;
         $chatsStore = [];
 
+        console.log($roomChannel);
         if ($roomChannel) {
+            $roomChannel.unsubscribe();
             $roomChannel.disconnect();
             $roomChannel = null;
         }
