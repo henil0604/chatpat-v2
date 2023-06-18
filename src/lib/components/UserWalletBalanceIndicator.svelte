@@ -22,7 +22,6 @@
     userWalletBalance.subscribe((bal) => {
         const diff = bal - lastBal;
 
-        console.log("diff?", diff);
         if (isNaN(diff)) return;
 
         coinIndicatorComponent?.animateDiff?.(diff);

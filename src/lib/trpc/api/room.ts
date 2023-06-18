@@ -156,25 +156,6 @@ export const roomRouter = t.router({
             });
         }
 
-        // Pusher Event trigger
-        try {
-            const push = pusher.trigger(`r-${room.name}`, "new-chat", {
-                id: input.id,
-                content: input.message,
-                createdAt: new Date(input.createdAt),
-                owner: user,
-                room: room,
-                ownerId: user.id as string,
-                roomId: room.id
-            })
-        } catch (error) {
-            Logger.log("error", `{[r-${room.name}][send-message][pusher]}`);
-            throw new TRPCError({
-                code: 'INTERNAL_SERVER_ERROR',
-                message: 'Something went wrong while broadcasting'
-            })
-        }
-
         const message = await ServerChat.create(input.message, user.username as string, input.roomName, input.createdAt, input.id);
 
         await ServerUser.changeWalletBalance(user.id as string, REWARD.MESSAGE_SEND);

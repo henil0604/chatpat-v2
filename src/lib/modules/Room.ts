@@ -1,4 +1,4 @@
-import { getChat, type chat, addChat, chatsMetaStore } from "$lib/store/room";
+import { getChat, type chat, addChat, chatsMetaStore, roomStore } from "$lib/store/room";
 import { get } from 'svelte/store'
 import System from "./System";
 
@@ -12,7 +12,6 @@ export default class ClientRoom {
             return;
         }
 
-
         const chat: chat = data;
 
         console.log(
@@ -20,10 +19,14 @@ export default class ClientRoom {
             Date.now() - new Date(chat.createdAt).getTime()
         );
 
+        if (chat.roomId !== get(roomStore)?.id) {
+            return
+        }
+
         if (getChat(chat.id).chat) {
             chatsMetaStore.set(get(chatsMetaStore).map((e) => {
                 if (e.id === chat.id) {
-                    e.sending = false;
+                    e.stored = true;
                 };
                 return e;
             }));

@@ -13,8 +13,9 @@ export let chatsStore = writable<chats>([])
 
 interface ChatMeta {
     id: string,
-    sending: boolean,
+    stored: boolean,
     failed: boolean,
+    broadcasted: boolean
 }
 export let chatsMetaStore = writable<ChatMeta[]>([])
 
