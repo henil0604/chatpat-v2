@@ -20,8 +20,6 @@
 
     $: user = $page.data.user;
 
-    $: console.log($userStore);
-
     $: if (browser && $userStore) {
         System.initGlobalPusher();
     }
@@ -55,11 +53,6 @@
                             name: "Home",
                             icon: "line-md:home-twotone",
                             href: "/",
-                        },
-                        {
-                            name: "Explore",
-                            icon: "ic:twotone-explore",
-                            href: "/explore",
                         },
                         {
                             name: "Create",
