@@ -18,7 +18,7 @@ export const CODE = {
     NOT_ENOUGH_COINS: 'NOT_ENOUGH_COINS'
 }
 
-export const INITIAL_WALLET_BALANCE = 95;
+export const INITIAL_WALLET_BALANCE = 100;
 
 export const COST = {
     CREATE_ROOM: {
