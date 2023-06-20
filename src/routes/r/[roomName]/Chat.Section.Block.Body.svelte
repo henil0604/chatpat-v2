@@ -68,7 +68,7 @@
                     <Icon icon="icon-park-outline:timer" />
                 {/if}
                 {#if meta.broadcasted && !meta.stored}
-                    <Icon icon="pixelarticons:check" />
+                    <Icon icon="material-symbols:check" />
                 {/if}
                 {#if meta.stored}
                     <Icon icon="material-symbols:check" />

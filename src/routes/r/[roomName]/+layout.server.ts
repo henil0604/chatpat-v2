@@ -5,7 +5,7 @@ export const load = async ({ params }) => {
 
     const room = await ServerRoom.getByName(roomName);
 
-    const chats = await ServerRoom.getSortedChats(roomName);
+    const chats = await ServerRoom.getSortedChats(roomName, 100);
 
     return {
         room,
