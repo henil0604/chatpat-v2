@@ -17,7 +17,7 @@
 
 <div
     bind:this={divRef}
-    class="py-1 px-2 border rounded-md flex-center gap-1 w-fit h-fit"
+    class="py-1 px-1 shadow-lg border rounded-md flex-center gap-1 w-fit h-fit text-sm"
 >
     {amount}
     <Icon class="h-fit w-fit" icon="openmoji:coin" />

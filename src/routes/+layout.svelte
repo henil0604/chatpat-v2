@@ -10,20 +10,26 @@
     import { loading, userStore, userWalletBalance } from "$lib/store";
     import "../app.postcss";
 
+    page.subscribe((p) => {
+        $userStore = p.data.user;
+
+        if (browser && $userStore) {
+            Store.refetchUserWalletBalance();
+        }
+    });
+
     $: user = $page.data.user;
 
-    $: user && browser && System.initGlobalPusher();
+    $: console.log($userStore);
+
+    $: if (browser && $userStore) {
+        System.initGlobalPusher();
+    }
 
     if (browser) {
         navigating.subscribe(() => {
             $loading = $navigating ? true : false;
         });
-
-        $userStore = user;
-    }
-
-    if (browser) {
-        Store.refetchUserWalletBalance();
     }
 
     let excludedNavigationPaths = ["/onboarding", "/login", "/r"];

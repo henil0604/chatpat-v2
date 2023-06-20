@@ -19,7 +19,7 @@
     <Avatar class="w-8 h-8 max-md:w-6 max-md:h-6">
         <AvatarImage
             src={section.owner.image || ""}
-            alt="@{section.owner.username}"
+            alt="@{section.owner.username || ''}"
         />
         <AvatarFallback
             >{section.owner.name
