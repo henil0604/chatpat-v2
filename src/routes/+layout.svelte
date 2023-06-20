@@ -7,7 +7,12 @@
     import { TooltipProvider } from "$components/ui/tooltip";
     import Store from "$lib/modules/Store";
     import System from "$lib/modules/System";
-    import { loading, userStore, userWalletBalance } from "$lib/store";
+    import {
+        darkMode,
+        loading,
+        userStore,
+        userWalletBalance,
+    } from "$lib/store";
     import "../app.postcss";
 
     page.subscribe((p) => {
@@ -17,6 +22,8 @@
             Store.refetchUserWalletBalance();
         }
     });
+
+    $: browser && System.setDarkMode($darkMode);
 
     $: user = $page.data.user;
 

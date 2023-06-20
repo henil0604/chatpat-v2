@@ -17,7 +17,9 @@
     import { Input } from "$components/ui/input";
     import { Label } from "$components/ui/label";
     import { Button } from "$components/ui/button";
-    import { loading } from "$lib/store";
+    import { Switch } from "$components/ui/switch";
+
+    import { darkMode, loading } from "$lib/store";
     import { signOut } from "@auth/sveltekit/client";
     import UserWalletBalanceIndicator from "$components/UserWalletBalanceIndicator.svelte";
 
@@ -34,13 +36,15 @@
     }
 
     export let tooltipSide = "right";
+
+    export let avatarSize = 8;
 </script>
 
 <Dialog>
     <DialogTrigger class="w-full">
         <Tooltip>
             <TooltipTrigger>
-                <Avatar>
+                <Avatar class="w-{avatarSize} h-{avatarSize}">
                     <AvatarImage src={user.image || ""} alt="" />
                     <AvatarFallback>{initials}</AvatarFallback>
                 </Avatar>
@@ -50,7 +54,7 @@
             </TooltipContent>
         </Tooltip>
     </DialogTrigger>
-    <DialogContent class="h-fit max-sm:h-full max-md:w-full">
+    <DialogContent class="h-fit max-sm:h-full max-md:w-full shadow-xl">
         <DialogHeader>
             <DialogTitle class="mb-5 text-left"
                 >Hey, <span class="highlight">{user.name}</span></DialogTitle
@@ -88,6 +92,14 @@
                                 class="w-full"
                                 value={user.email}
                             />
+                        </div>
+
+                        <div class="my-1 flex items-center space-x-2">
+                            <Switch
+                                bind:rootChecked={$darkMode}
+                                id="dark-mode"
+                            />
+                            <Label for="dark-mode">Dark Mode</Label>
                         </div>
 
                         <UserWalletBalanceIndicator />

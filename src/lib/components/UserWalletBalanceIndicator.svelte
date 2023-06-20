@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { userWalletBalance } from "$lib/store";
+    import { userStore, userWalletBalance } from "$lib/store";
     import CoinIndicator from "$components/CoinIndicator.svelte";
     import Store from "$lib/modules/Store";
     import { onDestroy, onMount } from "svelte";
@@ -16,6 +16,10 @@
     onDestroy(() => {
         clearInterval(interval);
     });
+
+    $: if (!$userStore) {
+        clearInterval(interval);
+    }
 
     let lastBal = $userWalletBalance;
 

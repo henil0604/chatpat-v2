@@ -1,5 +1,6 @@
 <script lang="ts">
     import { page } from "$app/stores";
+    import UserProfile from "$components/UserProfile.svelte";
     import UserWalletBalanceIndicator from "$components/UserWalletBalanceIndicator.svelte";
     import { SimpleTooltip } from "$components/ui/SimpleTooltip";
     import { Badge } from "$components/ui/badge";
@@ -40,10 +41,7 @@
                 <Icon class="text-xl" icon="ph:moon-fill" />
             </Button>
         </SimpleTooltip>
-        <div class="mx-1 max-md:mx-0" />
-
-        <SimpleTooltip message="You are online" side="bottom">
-            <Icon icon="fluent-emoji-flat:green-circle" class="animate-pulse" />
-        </SimpleTooltip>
+        <div class="mx-0.5 max-md:mx-0" />
+        <UserProfile tooltipSide="bottom" />
     </div>
 </div>
