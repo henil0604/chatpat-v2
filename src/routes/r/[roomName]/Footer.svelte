@@ -117,7 +117,7 @@
         class="rounded-none rounded-tl-lg rounded-bl-lg border-sky-500 outline-none box-border"
         bind:value={message}
         type="text"
-        placeholder="Type Something..."
+        placeholder="Share Something..."
         on:keypress={(e) => {
             if (e.keyCode === 13) handleSend();
         }}

@@ -22,12 +22,12 @@ export const INITIAL_WALLET_BALANCE = 100;
 
 export const COST = {
     CREATE_ROOM: {
-        PUBLIC: 30,
-        UNLISTED: 60,
-        PRIVATE: 100,
+        PUBLIC: 0,
+        UNLISTED: 0,
+        PRIVATE: 0,
     }
 }
 
 export const REWARD = {
-    MESSAGE_SEND: 0.2
+    MESSAGE_SEND: 0.5
 }
