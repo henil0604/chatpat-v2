@@ -39,7 +39,7 @@
         });
     }
 
-    let excludedNavigationPaths = ["/onboarding", "/login", "/r"];
+    let excludedNavigationPaths = ["/onboarding", "/login", "/r", "/admin"];
 
     $: isNavigationExcluded = excludedNavigationPaths
         .map((e) => {

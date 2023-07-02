@@ -4,8 +4,14 @@ export const EMAIL_HANDLE = "chatpat@henil.xyz";
 export const ProtectedRoutes = [
     '/explore',
     '/create',
-    '/r/*'
+    '/r/*',
+    '/admin'
 ]
+
+export const ADMIN_EMAILS = [
+    "henilmalaviya06@gmail.com"
+]
+
 
 export const REGEX = {
     alphanumeric: /^[A-Za-z0-9_\.-]*$/
