@@ -89,8 +89,6 @@ const protectedRouteHandle: Handle = async ({ event, resolve }) => {
 const onBoardingHandle: Handle = async ({ event, resolve }) => {
     const user = event.locals.user;
 
-    console.log('?', event.url.pathname, user !== null, !user?.username, !event.url.pathname.startsWith("/onboarding"), !event.url.pathname.startsWith("/trpc"))
-
     if (user !== null & !user?.username && !event.url.pathname.startsWith("/onboarding") && !event.url.pathname.startsWith("/trpc")) {
         const fromUrl = event.url.pathname + (event.url.searchParams.get("redirectTo") || "");
         throw redirect(301, `/onboarding?redirectTo=${fromUrl}`);
