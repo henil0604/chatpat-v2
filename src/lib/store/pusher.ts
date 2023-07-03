@@ -3,3 +3,4 @@ import { writable } from 'svelte/store';
 
 export const globalChannel = writable<Channel | null>(null);
 export const roomChannel = writable<Channel | null>(null);
+export const roomPresenceChannel = writable<Channel | null>(null);

@@ -7,7 +7,7 @@ var pusher = new Pusher(PUBLIC_PUSHER_KEY, {
         endpoint: '/api/pusher/user-auth',
         transport: "ajax"
     },
-    authEndpoint: '/api/pusher/auth',
+    authEndpoint: '/api/pusher/auth'
 });
 
 export default pusher;

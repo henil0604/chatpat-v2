@@ -8,9 +8,10 @@
     import PasswordProtection from "./PasswordProtection.svelte";
     import RoomNotFound from "./RoomNotFound.svelte";
     import { onDestroy } from "svelte";
-    import { loading } from "$lib/store";
+    import { loading, userStore } from "$lib/store";
     import System from "$lib/modules/System";
-    import { roomChannel } from "$lib/store/pusher";
+    import { roomChannel, roomPresenceChannel } from "$lib/store/pusher";
+    import ClientRoom from "$lib/modules/Room";
 
     const room: Awaited<ReturnType<(typeof ServerRoom)["getByName"]>> =
         $page.data.room;
@@ -35,10 +36,17 @@
         $roomStore = null;
         $chatsStore = [];
 
-        console.log($roomChannel);
+        if ($roomPresenceChannel) {
+            $roomPresenceChannel.disconnect();
+            $roomPresenceChannel.unsubscribe();
+            $roomPresenceChannel.unbind_all();
+            $roomPresenceChannel = null;
+        }
+
         if ($roomChannel) {
-            $roomChannel.unsubscribe();
             $roomChannel.disconnect();
+            $roomChannel.unsubscribe();
+            $roomChannel.unbind_all();
             $roomChannel = null;
         }
     });

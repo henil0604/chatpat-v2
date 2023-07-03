@@ -32,3 +32,13 @@ export function getChat(id: string) {
         index: get(chatsStore).findIndex(chat => chat.id === id)
     };
 }
+
+export let recentAlert = writable("");
+let recentAlertCleanupTimeout: any;
+recentAlert.subscribe(e => {
+    recentAlertCleanupTimeout && clearTimeout(recentAlertCleanupTimeout);
+    if (e.length === 0) return;
+    recentAlertCleanupTimeout = setTimeout(() => {
+        recentAlert.set('');
+    }, 4000);
+})

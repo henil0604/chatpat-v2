@@ -1,11 +1,12 @@
 import { ProtectedRoutes } from "$lib/const";
 import { userStore } from "$lib/store";
-import { globalChannel, roomChannel } from "$lib/store/pusher";
+import { globalChannel, roomChannel, roomPresenceChannel } from "$lib/store/pusher";
 import type { chats } from "$lib/store/room";
 import CryptoJS from 'crypto-js'
 import { get } from "svelte/store";
 import pusher from "$lib/modules/pusher";
 import ClientRoom from "./Room";
+import type { PresenceChannel } from "pusher-js";
 
 class System {
     private constructor() { }
@@ -113,10 +114,12 @@ class System {
         const gc = pusher.subscribe("private-global");
 
         gc.bind("pusher:subscription_succeeded", () => {
+            console.log(`Subscribed to global channel`)
         })
 
         gc.bind("pusher:subscription_error", console.error);
 
+        (window as any).globalChannel = gc;
         globalChannel.set(gc);
     }
 
@@ -129,7 +132,7 @@ class System {
         const rc = pusher.subscribe(`private-r-${roomName}`);
 
         rc.bind("pusher:subscription_succeeded", () => {
-            console.log(`Subscribed to ${roomName}`);
+            ClientRoom.onSubscriptionSucceeded(roomName)
         })
 
         rc.bind("pusher:subscription_error", console.error)
@@ -137,10 +140,23 @@ class System {
         rc.bind('client-new-chat', ClientRoom.newChatHandler);
 
         rc.bind("pusher:disconnected", () => {
-            console.log("disconnected")
+            ClientRoom.onDisconnect(roomName);
         });
 
+        (window as any).roomChannel = rc;
         roomChannel.set(rc);
+
+        // Presence Channel Setup
+        const rpc = pusher.subscribe(`presence-r-${roomName}`) as PresenceChannel;
+
+        rpc.bind("pusher:subscription_succeeded", () => {
+            ClientRoom.onPresenceChannelSubscriptionSucceeded(roomName);
+        });
+        rpc.bind("pusher:member_added", ClientRoom.userJoinHandler);
+        rpc.bind("pusher:member_removed", ClientRoom.userLeaveHandler);
+
+        (window as any).roomPresenceChannel = rpc;
+        roomPresenceChannel.set(rpc);
     }
 
     public static setDarkMode(value: boolean) {

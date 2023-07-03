@@ -35,10 +35,10 @@
         <SimpleTooltip message="Go Idle" side="bottom">
             <Button
                 on:click={() => ($roomAccess = false)}
-                class="h-full flex-center p-0 px-2 bg-amber-500 hover:bg-amber-600"
+                class="h-fit flex-center p-1 bg-amber-500 hover:bg-amber-600"
                 variant="destructive"
             >
-                <Icon class="text-xl" icon="ph:moon-fill" />
+                <Icon class="text-lg" icon="ph:moon-fill" />
             </Button>
         </SimpleTooltip>
         <div class="mx-0.5 max-md:mx-0" />
