@@ -9,7 +9,8 @@ export const ProtectedRoutes = [
 ]
 
 export const ADMIN_EMAILS = [
-    "henilmalaviya06@gmail.com"
+    "henilmalaviya06@gmail.com",
+    "princerenuka083@gmail.com"
 ]
 
 
