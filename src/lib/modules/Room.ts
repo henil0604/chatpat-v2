@@ -57,7 +57,7 @@ export default class ClientRoom {
         if (document.hidden) {
             System.playNotificationAudio()
         }
-        recentAlert.set(`${data.info.username} Joined`);
+        recentAlert.set(`${data.info.username} Joined the room`);
     }
 
     public static userLeaveHandler(data: any) {
@@ -65,7 +65,7 @@ export default class ClientRoom {
         if (data.info.username === get(userStore)?.username) {
             return;
         }
-        recentAlert.set(`${data.info.username} Left`);
+        recentAlert.set(`${data.info.username} Left the room`);
     }
 
     public static onSubscriptionSucceeded(roomName: string) {
