@@ -54,6 +54,9 @@ export default class ClientRoom {
         if (data.info.username === get(userStore)?.username) {
             return;
         }
+        if (document.hidden) {
+            System.playNotificationAudio()
+        }
         recentAlert.set(`${data.info.username} Joined`);
     }
 
