@@ -17,9 +17,11 @@
     let message = "";
 
     const user = $page.data.user!;
+    console.log(user);
 
     async function handleSend() {
-        if (!$roomStore) return;
+        if (!$roomStore) return location.reload();
+        if (!user) return location.reload();
         if (message.trim() === "") return;
         $isMessageBeingSent = true;
         let msg = message;
