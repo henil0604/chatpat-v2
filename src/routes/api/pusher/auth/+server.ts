@@ -11,8 +11,6 @@ export const POST = async ({ request, locals }) => {
 
     const formData = (await request.formData());
 
-    console.log(user, formData);
-
     const socket_id = formData.get("socket_id")
     const channel_name = formData.get("channel_name")
 

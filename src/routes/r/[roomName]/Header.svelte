@@ -6,8 +6,9 @@
     import { Badge } from "$components/ui/badge";
     import { Button } from "$components/ui/button";
     import type ServerRoom from "$lib/modules/server/Room";
-    import { roomAccess } from "$lib/store/room";
+    import { recentAlert, roomAccess } from "$lib/store/room";
     import Icon from "@iconify/svelte";
+    import { slide } from "svelte/transition";
 
     const room: Awaited<ReturnType<(typeof ServerRoom)["getByName"]>> =
         $page.data.room!;

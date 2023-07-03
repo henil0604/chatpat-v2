@@ -9,15 +9,6 @@
     id="body"
     class="relative flex-grow w-full max-h-full flex flex-col py-3 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-transparent"
 >
-    {#if $recentAlert.length > 0}
-        <div
-            in:slide
-            out:slide
-            class="absolute top-0 left-0 w-full backdrop-blur-md h-fit py-1 text-[13px] bg-slate-900 text-center text-white shadow-lg"
-        >
-            {$recentAlert}
-        </div>
-    {/if}
     {#each System.transformChats($chatsStore) as block}
         <Block {block} />
     {/each}
