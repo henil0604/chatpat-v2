@@ -9,6 +9,7 @@
     import { recentAlert, roomAccess, showMembers } from "$lib/store/room";
     import Icon from "@iconify/svelte";
     import { slide } from "svelte/transition";
+    import ShowMembersDialogButton from "./ShowMembersDialogButton.svelte";
 
     const room: Awaited<ReturnType<(typeof ServerRoom)["getByName"]>> =
         $page.data.room!;
@@ -43,14 +44,7 @@
                 <Icon class="text-lg" icon="ph:moon-fill" />
             </Button>
         </SimpleTooltip>
-        <SimpleTooltip message="Show Members" side="bottom">
-            <Button
-                on:click={() => ($showMembers = true)}
-                class="h-fit flex-center p-1 bg-green-500 hover:bg-green-600"
-            >
-                <Icon class="text-lg" icon="ic:sharp-people" />
-            </Button>
-        </SimpleTooltip>
+        <ShowMembersDialogButton />
         <div class="mx-0.5 max-md:mx-0" />
         <UserProfile tooltipSide="bottom" />
     </div>

@@ -5,10 +5,8 @@
 
     import Header from "./Header.svelte";
     import { recentAlert, showMembers } from "$lib/store/room";
-    import ShowMembersDialog from "./ShowMembersDialog.svelte";
 </script>
 
-<ShowMembersDialog />
 <div
     in:slide
     class="w-full h-full flex flex-col border rounded-md shadow-xl max-md:min-w-none max-md:w-full max-md:h-full"

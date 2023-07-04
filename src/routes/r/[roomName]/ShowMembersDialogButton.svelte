@@ -1,5 +1,7 @@
 <script lang="ts">
+    import { SimpleTooltip } from "$components/ui/SimpleTooltip";
     import { Avatar, AvatarFallback, AvatarImage } from "$components/ui/avatar";
+    import { Button } from "$components/ui/button";
     import {
         Dialog,
         DialogContent,
@@ -11,13 +13,23 @@
     import { userStore } from "$lib/store";
     import { roomPresenceChannel } from "$lib/store/pusher";
     import { showMembers } from "$lib/store/room";
+    import Icon from "@iconify/svelte";
 
     $: members = $roomPresenceChannel?.members!;
 
     $: console.log(members);
 </script>
 
-<Dialog open={$showMembers}>
+<Dialog>
+    <DialogTrigger>
+        <SimpleTooltip message="Show Members" side="bottom">
+            <Button
+                class="h-fit flex-center p-1 bg-green-500 hover:bg-green-600"
+            >
+                <Icon class="text-lg" icon="ic:sharp-people" />
+            </Button>
+        </SimpleTooltip>
+    </DialogTrigger>
     <DialogContent class="max-h-screen">
         <DialogHeader>
             <DialogTitle>Room Members</DialogTitle>
