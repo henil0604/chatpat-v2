@@ -34,9 +34,8 @@
         <DialogHeader>
             <DialogTitle>Room Members</DialogTitle>
             <DialogDescription>
-                There are currently {members.count} member{members.count > 1
-                    ? "s"
-                    : ""}
+                There {members.count > 1 ? "are" : "is"} currently {members.count}
+                member{members.count > 1 ? "s" : ""}
             </DialogDescription>
         </DialogHeader>
         <div class="flex flex-col overflow-y-auto">
