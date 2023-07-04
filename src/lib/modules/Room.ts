@@ -2,7 +2,7 @@ import { getChat, type chat, addChat, chatsMetaStore, roomStore, recentAlert } f
 import { get } from 'svelte/store'
 import System from "./System";
 import { userStore } from "$lib/store";
-import { roomChannel } from "$lib/store/pusher";
+import { roomChannel, roomPresenceChannel } from "$lib/store/pusher";
 
 export default class ClientRoom {
     private constructor() { }
@@ -58,6 +58,7 @@ export default class ClientRoom {
             System.playNotificationAudio()
         }
         recentAlert.set(`${data.info.username} Joined the room`);
+        roomPresenceChannel.set(get(roomPresenceChannel));
     }
 
     public static userLeaveHandler(data: any) {
@@ -66,6 +67,7 @@ export default class ClientRoom {
             return;
         }
         recentAlert.set(`${data.info.username} Left the room`);
+        roomPresenceChannel.set(get(roomPresenceChannel));
     }
 
     public static onSubscriptionSucceeded(roomName: string) {

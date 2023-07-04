@@ -6,7 +6,7 @@
     import { Badge } from "$components/ui/badge";
     import { Button } from "$components/ui/button";
     import type ServerRoom from "$lib/modules/server/Room";
-    import { recentAlert, roomAccess } from "$lib/store/room";
+    import { recentAlert, roomAccess, showMembers } from "$lib/store/room";
     import Icon from "@iconify/svelte";
     import { slide } from "svelte/transition";
 
@@ -17,7 +17,9 @@
         $page.data.chats!;
 </script>
 
-<div class="p-3 max-md:p-2 border-b-2 shadow-lg z-[2] flex justify-between">
+<div
+    class="p-3 py-1 max-md:p-2 border-b-2 shadow-lg z-[2] flex justify-between"
+>
     <!-- Left -->
     <div class="flex">
         <SimpleTooltip message="Go to Dashboard" side="bottom">
@@ -28,7 +30,7 @@
 
         <div class="mx-1.5" />
 
-        <div class="text-lg">{room?.name}</div>
+        <div class="text-lg flex-center">{room?.name}</div>
     </div>
     <!-- Right -->
     <div class="flex-center gap-1">
@@ -37,9 +39,16 @@
             <Button
                 on:click={() => ($roomAccess = false)}
                 class="h-fit flex-center p-1 bg-amber-500 hover:bg-amber-600"
-                variant="destructive"
             >
                 <Icon class="text-lg" icon="ph:moon-fill" />
+            </Button>
+        </SimpleTooltip>
+        <SimpleTooltip message="Show Members" side="bottom">
+            <Button
+                on:click={() => ($showMembers = !$showMembers)}
+                class="h-fit flex-center p-1 bg-green-500 hover:bg-green-600"
+            >
+                <Icon class="text-lg" icon="ic:sharp-people" />
             </Button>
         </SimpleTooltip>
         <div class="mx-0.5 max-md:mx-0" />
