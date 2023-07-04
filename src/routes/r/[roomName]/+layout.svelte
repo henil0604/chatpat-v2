@@ -18,10 +18,9 @@
     const chats: Awaited<ReturnType<(typeof ServerRoom)["getSortedChats"]>> =
         $page.data.chats;
 
-    $loading = true;
-
     if (browser) {
         (async () => {
+            $loading = true;
             $roomStore = room;
             $chatsStore = chats;
             if (room?.visibility !== "private") {
