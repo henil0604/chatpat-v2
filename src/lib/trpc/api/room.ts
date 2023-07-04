@@ -141,6 +141,7 @@ export const roomRouter = t.router({
 
     sendMessage: t.procedure.use(authMiddleware).input(z.object({
         id: z.string(),
+        replyChatId: z.string().optional(),
         message: z.string(),
         createdAt: z.number(),
         roomName: z.string()
@@ -156,7 +157,7 @@ export const roomRouter = t.router({
             });
         }
 
-        const message = await ServerChat.create(input.message, user.username as string, input.roomName, input.createdAt, input.id);
+        const message = await ServerChat.create(input.message, user.username as string, input.roomName, input.createdAt, input.id, input.replyChatId || undefined);
 
         await ServerUser.changeWalletBalance(user.id as string, REWARD.MESSAGE_SEND);
 

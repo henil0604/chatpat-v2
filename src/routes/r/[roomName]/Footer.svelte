@@ -8,8 +8,11 @@
     import {
         chatsMetaStore,
         chatsStore,
+        getChat,
         isMessageBeingSent,
+        replyChatId,
         roomStore,
+        type chat,
     } from "$lib/store/room";
     import { trpc } from "$trpc/client";
     import Icon from "@iconify/svelte";
@@ -33,7 +36,9 @@
 
         const id = System.randomString(21);
 
-        let data = {
+        const repliedChat = getChat($replyChatId as string).chat!;
+
+        let data: chat = {
             id,
             content: msg,
             createdAt: new Date(),
@@ -50,6 +55,15 @@
             reactions: [],
             roomId: $roomStore.id,
             updatedAt: new Date(),
+            repliedChat: $replyChatId
+                ? {
+                      id: repliedChat.id,
+                      content: repliedChat.content,
+                      createdAt: repliedChat.createdAt,
+                      owner: repliedChat.owner,
+                  }
+                : null,
+            repliedChatId: $replyChatId || null,
         };
 
         $chatsStore = [
@@ -77,6 +91,7 @@
             room: $roomStore,
             ownerId: user.id as string,
             roomId: $roomStore.id,
+            repliedChat: data.repliedChat,
         });
 
         $chatsMetaStore = $chatsMetaStore.map((e) => {
@@ -86,12 +101,15 @@
             return e;
         });
 
+        $replyChatId = null;
+
         try {
             const sendResponse = await trpc().room.sendMessage.query({
                 id,
                 message: msg,
                 createdAt: Date.now(),
                 roomName: $roomStore.name,
+                replyChatId: data.repliedChatId || undefined,
             });
         } catch (e) {
             $chatsMetaStore = $chatsMetaStore.map((e) => {

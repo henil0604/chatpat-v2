@@ -58,6 +58,10 @@ module.exports = {
           'sent-box-foreground': "hsl(var(--sent-message-box-color-foreground))",
           'sent-username': "hsl(var(--sent-message-username))",
           'received-username': "hsl(var(--received-message-username))",
+          'sent-reply-box': hslVar('sent-message-reply-box-color'),
+          'sent-reply-box-foreground': hslVar('sent-message-reply-box-color-foreground'),
+          'received-reply-box': hslVar('received-message-reply-box-color'),
+          'received-reply-box-foreground': hslVar('received-message-reply-box-color-foreground'),
         },
         chat: {
           section: {

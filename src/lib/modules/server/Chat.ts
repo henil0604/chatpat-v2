@@ -4,8 +4,7 @@ export default class ServerChat {
 
     private constructor() { }
 
-    public static async create(message: string, ownerUsername: string, roomName: string, createdAt = Date.now(), id?: string) {
-
+    public static async create(message: string, ownerUsername: string, roomName: string, createdAt = Date.now(), id?: string, replyChatId?: string) {
         return await prisma.chat.create({
             data: {
                 id,
@@ -21,6 +20,11 @@ export default class ServerChat {
                     }
                 },
                 createdAt: new Date(createdAt),
+                repliedChat: replyChatId ? {
+                    connect: {
+                        id: replyChatId
+                    }
+                } : undefined
             },
             include: {
                 owner: true,

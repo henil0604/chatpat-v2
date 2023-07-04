@@ -50,3 +50,5 @@ recentAlert.subscribe(e => {
 export let showMembers = writable(false);
 
 export let typingUsers = writable<string[]>([]);
+
+export let replyChatId = writable<null | string>();

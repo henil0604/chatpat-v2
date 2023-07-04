@@ -86,6 +86,10 @@ model Chat {
   roomName  String
   reactions String[]
 
+  repliedChat   Chat?   @relation("repliedChat", fields: [repliedChatId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  repliedChatId String?
+  repliedChats  Chat[]  @relation("repliedChat")
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

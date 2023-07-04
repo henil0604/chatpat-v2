@@ -11,10 +11,13 @@
     } from "$components/ui/dialog";
     import System from "$lib/modules/System";
     import { roomChannel } from "$lib/store/pusher";
-    import { chatsMetaStore, removeChat } from "$lib/store/room";
+    import { chatsMetaStore, removeChat, replyChatId } from "$lib/store/room";
     import { trpc } from "$trpc/client";
     import Icon from "@iconify/svelte";
     import { onMount } from "svelte";
+    import { draggable, type DragOptions } from "@neodrag/svelte";
+    import { tweened } from "svelte/motion";
+    import { sineIn } from "svelte/easing";
 
     let div: HTMLDivElement;
     let showMenu = false;
@@ -64,6 +67,17 @@
         showMenu = false;
         System.copyTextToClipboard(chat.content);
     }
+
+    const drag_x = tweened(0, { easing: sineIn });
+
+    function handleSetReply() {
+        $replyChatId = chat.id;
+    }
+
+    function handleReply() {
+        showMenu = false;
+        handleSetReply();
+    }
 </script>
 
 <Dialog bind:open={showMenu}>
@@ -85,6 +99,13 @@
         <hr />
 
         <div class="flex flex-col gap-1">
+            <Button
+                on:click={handleReply}
+                variant="outline"
+                class="w-full h-fit p-2 flex justify-start gap-2"
+            >
+                <Icon icon="ic:baseline-reply" class="text-lg" /> Reply
+            </Button>
             <Button
                 on:click={handleCopy}
                 variant="outline"
@@ -108,9 +129,24 @@
 <div
     bind:this={div}
     data-chat-id={chat.id}
-    class="flex flex-col justify-between w-fit max-w-lg max-md:max-w-md max-sm:max-w-sm h-fit text-sm px-2 py-1 pb-1.5 rounded-md mb-1 select-none {owner
+    class="cursor-grab flex flex-col justify-between w-fit max-w-lg max-md:max-w-md max-sm:max-w-sm h-fit text-sm px-2 py-1 pb-1.5 rounded-md mb-1 select-none {owner
         ? 'bg-message-sent-box text-message-sent-box-foreground rounded-tr-none'
         : 'bg-message-received text-message-received-box-foreground rounded-tl-none'}"
+    use:draggable={{
+        axis: "x",
+        bounds: "parent",
+        position: { x: $drag_x, y: 0 },
+    }}
+    on:neodrag={(e) => {
+        // We don't want it lagging while dragging, so duration: 0
+        drag_x.set(e.detail.offsetX, { duration: 0 });
+    }}
+    on:neodrag:end={(e) => {
+        if (Math.abs(e.detail.offsetX) > 100) {
+            handleSetReply();
+        }
+        $drag_x = 0;
+    }}
 >
     <!-- header -->
     <div class="mb-1">
@@ -123,8 +159,28 @@
                 @{chat.owner.username}
             </div>
         {/if}
-        <!--  -->
     </div>
+
+    <!-- Reply Box -->
+    {#if chat.repliedChat}
+        <div
+            class="p-2 py-1 flex flex-col w-full rounded-r-md pr-7 border-l-4 my-1 {chat
+                .repliedChat.owner.id === user.id
+                ? 'bg-message-sent-reply-box text-message-sent-reply-box-foreground'
+                : 'bg-message-received-reply-box text-message-received-reply-box-foreground'}"
+        >
+            <div class="text-[10px]">
+                Replying to <span class="italic"
+                    >{chat.repliedChat.owner.id === user.id
+                        ? "self"
+                        : `@${chat.repliedChat.owner.username}`}
+                </span>
+            </div>
+            <div class="text-[12px] pl-1">
+                {chat.repliedChat.content}
+            </div>
+        </div>
+    {/if}
 
     <div class="flex items-end">
         <div class="flex flex-grow text-sm break-all">

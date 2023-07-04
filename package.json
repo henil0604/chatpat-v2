@@ -41,6 +41,7 @@
   "dependencies": {
     "@auth/core": "^0.8.1",
     "@auth/sveltekit": "^0.3.1",
+    "@neodrag/svelte": "^2.0.3",
     "@next-auth/prisma-adapter": "^1.0.7",
     "@trpc/client": "^10.29.0",
     "@trpc/server": "^10.29.0",

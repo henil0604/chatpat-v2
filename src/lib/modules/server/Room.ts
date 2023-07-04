@@ -83,7 +83,15 @@ export default class ServerRoom {
             },
             take: take ? -take : undefined,
             include: {
-                owner: true
+                owner: true,
+                repliedChat: {
+                    select: {
+                        owner: true,
+                        content: true,
+                        createdAt: true,
+                        id: true,
+                    }
+                },
             }
         })
     }

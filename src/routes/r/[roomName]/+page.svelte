@@ -4,8 +4,15 @@
     import Footer from "./Footer.svelte";
 
     import Header from "./Header.svelte";
-    import { recentAlert, showMembers, typingUsers } from "$lib/store/room";
+    import {
+        getChat,
+        recentAlert,
+        replyChatId,
+        showMembers,
+        typingUsers,
+    } from "$lib/store/room";
     import Icon from "@iconify/svelte";
+    import { Button } from "$components/ui/button";
 </script>
 
 <div
@@ -32,6 +39,35 @@
             <Icon icon="svg-spinners:3-dots-bounce" class="mr-2" />
             <span class="italic mr-1">{$typingUsers.join(", ")}</span>
             {$typingUsers.length > 1 ? "are" : "is"} typing...
+        </div>
+    {/if}
+    {#if $replyChatId}
+        {@const { chat } = getChat($replyChatId)}
+        <!-- wrapper -->
+        <div in:slide out:slide class="w-full h-fit flex justify-end">
+            <!-- reply box -->
+            <div
+                class="w-fit h-fit border shadow-lg p-3 rounded-l-md flex flex-col"
+            >
+                <!-- header -->
+                <div class="flex justify-between">
+                    <div class="text-xs">
+                        Replying to <span class="italic"
+                            >@{chat?.owner.username}</span
+                        >
+                    </div>
+                    <Button
+                        on:click={() => ($replyChatId = null)}
+                        size="sm"
+                        class="h-full p-1 ml-12"
+                    >
+                        <Icon icon="mdi:close" />
+                    </Button>
+                </div>
+                <div>
+                    {chat?.content}
+                </div>
+            </div>
         </div>
     {/if}
     <Footer />
