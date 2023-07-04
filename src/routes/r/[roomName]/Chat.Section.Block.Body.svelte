@@ -51,7 +51,7 @@
     </div>
 
     <div class="flex items-end">
-        <div class="flex flex-grow text-sm">
+        <div class="flex flex-grow text-sm break-all">
             {chat.content}
         </div>
 
