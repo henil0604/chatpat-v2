@@ -96,7 +96,7 @@
 <div
     bind:this={div}
     data-chat-id={chat.id}
-    class="flex flex-col justify-between w-fit max-w-lg max-md:max-w-md max-sm:max-w-sm h-fit text-sm px-2 py-1 pb-1.5 rounded-md mb-1 {owner
+    class="flex flex-col justify-between w-fit max-w-lg max-md:max-w-md max-sm:max-w-sm h-fit text-sm px-2 py-1 pb-1.5 rounded-md mb-1 select-none {owner
         ? 'bg-message-sent-box text-message-sent-box-foreground rounded-tr-none'
         : 'bg-message-received text-message-received-box-foreground rounded-tl-none'}"
 >
