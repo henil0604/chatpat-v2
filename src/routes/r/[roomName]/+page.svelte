@@ -4,7 +4,8 @@
     import Footer from "./Footer.svelte";
 
     import Header from "./Header.svelte";
-    import { recentAlert, showMembers } from "$lib/store/room";
+    import { recentAlert, showMembers, typingUsers } from "$lib/store/room";
+    import Icon from "@iconify/svelte";
 </script>
 
 <div
@@ -22,5 +23,16 @@
         </div>
     {/if}
     <Body />
+    {#if $typingUsers.length > 0}
+        <div
+            in:slide
+            out:slide
+            class="w-full backdrop-blur-md h-fit px-2 py-1 text-[13px] bg-slate-900 text-white shadow-lg flex items-center"
+        >
+            <Icon icon="svg-spinners:3-dots-bounce" class="mr-2" />
+            <span class="italic mr-1">{$typingUsers.join(", ")}</span>
+            {$typingUsers.length > 1 ? "are" : "is"} typing...
+        </div>
+    {/if}
     <Footer />
 </div>

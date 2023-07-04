@@ -1,4 +1,4 @@
-import { getChat, type chat, addChat, chatsMetaStore, roomStore, recentAlert } from "$lib/store/room";
+import { getChat, type chat, addChat, chatsMetaStore, roomStore, recentAlert, typingUsers } from "$lib/store/room";
 import { get } from 'svelte/store'
 import System from "./System";
 import { userStore } from "$lib/store";
@@ -88,16 +88,21 @@ export default class ClientRoom {
         console.log(`Disconnected from ${roomName}`)
     }
 
-    public static showPresenceHandler(id: string) {
-
-        const user = get(userStore);
-
-        get(roomChannel)?.trigger(`client-i-am-present`, {
-            username: user?.username,
-            image: user?.image,
-            presence_id: id
-        });
+    public static typingStartHandler(data: any) {
+        console.log("typing start:", data);
+        const alreadyExists = get(typingUsers).includes(data.username);
+        if (alreadyExists) return;
+        typingUsers.set([
+            ...get(typingUsers),
+            data.username
+        ])
     }
+
+    public static typingStopHandler(data: any) {
+        console.log("typing stop:", data);
+        typingUsers.set(get(typingUsers).filter(e => e !== data.username));
+    }
+
 
 
 

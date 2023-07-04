@@ -20,6 +20,10 @@
     console.log(user);
 
     async function handleSend() {
+        $roomChannel?.trigger(`client-typing-stop`, {
+            username: user.username,
+            timestamp: Date.now(),
+        });
         if (!$roomStore) return location.reload();
         if (!user) return location.reload();
         if (message.trim() === "") return;
@@ -112,6 +116,31 @@
 
         $isMessageBeingSent = false;
     }
+
+    function keyDownHandler(e: KeyboardEvent) {
+        if (e.keyCode === 13) handleSend();
+    }
+
+    let inputTimeout: any;
+    function inputHandler(e: Event) {
+        clearTimeout(inputTimeout);
+        if (!inputTimeout) {
+            // trigger start typing event
+            $roomChannel?.trigger(`client-typing-start`, {
+                username: user.username,
+                timestamp: Date.now(),
+            });
+        }
+
+        inputTimeout = setTimeout(() => {
+            // trigger stop typing event
+            $roomChannel?.trigger(`client-typing-stop`, {
+                username: user.username,
+                timestamp: Date.now(),
+            });
+            inputTimeout = null;
+        }, 400);
+    }
 </script>
 
 <div class="flex z-[2] p-5 max-md:p-3">
@@ -120,9 +149,8 @@
         bind:value={message}
         type="text"
         placeholder="Share Something..."
-        on:keypress={(e) => {
-            if (e.keyCode === 13) handleSend();
-        }}
+        on:keydown={keyDownHandler}
+        on:input={inputHandler}
     />
     <Button on:click={handleSend} class="rounded-none text-xl px-2 !h-full"
         ><Icon icon="mingcute:send-fill" /></Button
