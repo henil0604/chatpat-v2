@@ -87,7 +87,7 @@
         <div class="flex flex-col gap-1">
             <Button
                 on:click={handleCopy}
-                variant="ghost"
+                variant="outline"
                 class="w-full h-fit p-2 flex justify-start gap-2"
             >
                 <Icon icon="iconamoon:copy-bold" class="text-lg" /> Copy
