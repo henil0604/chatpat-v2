@@ -145,10 +145,14 @@
 
 <div class="flex z-[2] p-5 max-md:p-3">
     <Input
+        id="messageInputBox"
         class="rounded-none rounded-tl-lg rounded-bl-lg border-sky-500 outline-none box-border"
         bind:value={message}
-        type="text"
+        type="search"
         placeholder="Share Something..."
+        autocomplete="off"
+        aria-autocomplete="both"
+        aria-haspopup="false"
         on:keydown={keyDownHandler}
         on:input={inputHandler}
     />
@@ -156,3 +160,11 @@
         ><Icon icon="mingcute:send-fill" /></Button
     >
 </div>
+
+<style scoped lang="postcss">
+    #messageInputBox {
+        -webkit-appearance: none;
+        appearance: none;
+        -moz-appearance: none;
+    }
+</style>
