@@ -27,7 +27,7 @@
         <div
             in:slide
             out:slide
-            class="w-full backdrop-blur-md h-fit px-2 py-1 text-[13px] bg-slate-900 text-white shadow-lg flex items-center"
+            class="w-fit rounded-t-md backdrop-blur-md h-fit px-2 py-1 text-[13px] bg-slate-900 text-white shadow-lg flex items-center"
         >
             <Icon icon="svg-spinners:3-dots-bounce" class="mr-2" />
             <span class="italic mr-1">{$typingUsers.join(", ")}</span>
