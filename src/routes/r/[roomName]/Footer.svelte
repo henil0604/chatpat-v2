@@ -139,7 +139,7 @@
                 timestamp: Date.now(),
             });
             inputTimeout = null;
-        }, 400);
+        }, 900);
     }
 </script>
 
