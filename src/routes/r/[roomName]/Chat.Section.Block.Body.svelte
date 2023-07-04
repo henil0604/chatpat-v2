@@ -134,7 +134,6 @@
         : 'bg-message-received text-message-received-box-foreground rounded-tl-none'}"
     use:draggable={{
         axis: "x",
-        bounds: "parent",
         position: { x: $drag_x, y: 0 },
     }}
     on:neodrag={(e) => {
