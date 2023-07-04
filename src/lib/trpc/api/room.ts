@@ -169,4 +169,29 @@ export const roomRouter = t.router({
         }
     }),
 
+    unsendMessage: t.procedure.use(authMiddleware).input(z.object({
+        id: z.string(),
+    })).query(async ({ input, ctx }) => {
+
+        const user = ctx.user!;
+
+        const chat = await ServerChat.getById(input.id)
+
+        if (chat?.ownerId !== user.id) {
+            throw new TRPCError({
+                code: 'FORBIDDEN'
+            });
+        }
+
+        await ServerChat.deleteById(input.id);
+
+        return {
+            code: CODE.DONE,
+            message: 'Chat deleted',
+            data: {
+                id: input.id
+            }
+        }
+    })
+
 });

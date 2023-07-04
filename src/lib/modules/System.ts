@@ -143,6 +143,7 @@ class System {
             rc.bind("pusher:subscription_error", console.error)
 
             rc.bind('client-new-chat', ClientRoom.newChatHandler);
+            rc.bind('client-chat-unsend', ClientRoom.chatUnsendHandler);
             rc.bind('client-typing-start', ClientRoom.typingStartHandler);
             rc.bind('client-typing-stop', ClientRoom.typingStopHandler);
 

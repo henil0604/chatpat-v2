@@ -30,4 +30,24 @@ export default class ServerChat {
 
     }
 
+    public static async getById(id: string) {
+        return await prisma.chat.findFirst({
+            where: {
+                id
+            },
+            include: {
+                owner: true,
+                room: true
+            }
+        })
+    }
+
+    public static async deleteById(id: string) {
+        return await prisma.chat.delete({
+            where: {
+                id
+            }
+        })
+    }
+
 }

@@ -1,14 +1,31 @@
 <script lang="ts">
     import { page } from "$app/stores";
+    import { Avatar, AvatarFallback, AvatarImage } from "$components/ui/avatar";
+    import { Button } from "$components/ui/button";
+    import {
+        Dialog,
+        DialogContent,
+        DialogDescription,
+        DialogHeader,
+        DialogTitle,
+    } from "$components/ui/dialog";
     import type System from "$lib/modules/System";
-    import { chatsMetaStore } from "$lib/store/room";
+    import { roomChannel } from "$lib/store/pusher";
+    import { chatsMetaStore, removeChat } from "$lib/store/room";
+    import { trpc } from "$trpc/client";
     import Icon from "@iconify/svelte";
     import { onMount } from "svelte";
 
     let div: HTMLDivElement;
+    let showMenu = false;
 
     onMount(() => {
         div?.scrollIntoView();
+
+        div.oncontextmenu = () => {
+            showMenu = true;
+            return false;
+        };
     });
 
     export let section: ReturnType<
@@ -27,7 +44,54 @@
     $: last = index == section.chats.length - 1;
     $: mid = !first && !last;
     $: owner = chat.owner.id === user.id;
+
+    async function handleUnsend() {
+        showMenu = false;
+        $roomChannel?.trigger("client-chat-unsend", {
+            id: chat.id,
+        });
+
+        removeChat(chat.id);
+
+        const unsendResponse = await trpc().room.unsendMessage.query({
+            id: chat.id,
+        });
+
+        console.log(unsendResponse);
+    }
 </script>
+
+<Dialog bind:open={showMenu}>
+    <DialogContent>
+        <DialogHeader />
+        <div
+            class="w-full border rounded-sm my-5 p-2 shadow-lg flex gap-2 {owner
+                ? 'flex-row-reverse'
+                : 'flex-row'}"
+        >
+            <Avatar class="w-8 h-8 max-md:w-6 max-md:h-6">
+                <AvatarImage
+                    src={section.owner.image || ""}
+                    alt="@{section.owner.username || ''}"
+                />
+            </Avatar>
+            {@html div.outerHTML}
+        </div>
+        <hr />
+
+        <div class="flex flex-col">
+            {#if owner}
+                <Button
+                    on:click={handleUnsend}
+                    variant="destructive"
+                    class="w-full h-fit p-2 flex justify-start gap-2"
+                >
+                    <Icon icon="mdi:delete" class="text-lg" /> Unsend
+                </Button>
+            {/if}
+        </div>
+    </DialogContent>
+</Dialog>
 
 <div
     bind:this={div}

@@ -33,6 +33,10 @@ export function getChat(id: string) {
     };
 }
 
+export function removeChat(id: string) {
+    chatsStore.set(get(chatsStore).filter(e => e.id !== id));
+}
+
 export let recentAlert = writable("");
 let recentAlertCleanupTimeout: any;
 recentAlert.subscribe(e => {

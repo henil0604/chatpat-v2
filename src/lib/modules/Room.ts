@@ -1,4 +1,4 @@
-import { getChat, type chat, addChat, chatsMetaStore, roomStore, recentAlert, typingUsers } from "$lib/store/room";
+import { getChat, type chat, addChat, chatsMetaStore, roomStore, recentAlert, typingUsers, removeChat } from "$lib/store/room";
 import { get } from 'svelte/store'
 import System from "./System";
 import { userStore } from "$lib/store";
@@ -103,6 +103,9 @@ export default class ClientRoom {
         typingUsers.set(get(typingUsers).filter(e => e !== data.username));
     }
 
+    public static chatUnsendHandler(data: { id: string }) {
+        removeChat(data.id);
+    }
 
 
 
