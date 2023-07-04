@@ -9,7 +9,7 @@
         DialogHeader,
         DialogTitle,
     } from "$components/ui/dialog";
-    import type System from "$lib/modules/System";
+    import System from "$lib/modules/System";
     import { roomChannel } from "$lib/store/pusher";
     import { chatsMetaStore, removeChat } from "$lib/store/room";
     import { trpc } from "$trpc/client";
@@ -59,6 +59,11 @@
 
         console.log(unsendResponse);
     }
+
+    async function handleCopy() {
+        showMenu = false;
+        System.copyTextToClipboard(chat.content);
+    }
 </script>
 
 <Dialog bind:open={showMenu}>
@@ -79,7 +84,14 @@
         </div>
         <hr />
 
-        <div class="flex flex-col">
+        <div class="flex flex-col gap-1">
+            <Button
+                on:click={handleCopy}
+                variant="ghost"
+                class="w-full h-fit p-2 flex justify-start gap-2"
+            >
+                <Icon icon="iconamoon:copy-bold" class="text-lg" /> Copy
+            </Button>
             {#if owner}
                 <Button
                     on:click={handleUnsend}
