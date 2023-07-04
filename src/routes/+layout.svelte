@@ -33,7 +33,9 @@
 
     if (browser) {
         navigating.subscribe(() => {
-            $loading = $navigating ? true : false;
+            if ($navigating) {
+                $loading = true;
+            }
         });
     }
 

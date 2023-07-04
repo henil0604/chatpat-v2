@@ -19,6 +19,7 @@
     import { loading } from "$lib/store";
     import { trpc } from "$trpc/client";
     import { debounce } from "lodash-es";
+    import { onMount } from "svelte";
 
     const user = $page.data.user!;
 
@@ -94,6 +95,10 @@
     if (browser) {
         checkRoomname();
     }
+
+    onMount(() => {
+        $loading = false;
+    });
 </script>
 
 <div class="w-full h-full flex justify-center py-10 pt-5 max-md:p-0">

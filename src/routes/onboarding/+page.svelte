@@ -17,6 +17,7 @@
     import { trpc } from "$lib/trpc/client";
     import { redirect } from "@sveltejs/kit";
     import { debounce } from "lodash-es";
+    import { onMount } from "svelte";
 
     const user = $page.data.user!;
 
@@ -73,6 +74,10 @@
     if (browser) {
         checkUsername();
     }
+
+    onMount(() => {
+        $loading = false;
+    });
 </script>
 
 <div class="w-full min-h-screen flex justify-center md:py-10 md:pt-32">
