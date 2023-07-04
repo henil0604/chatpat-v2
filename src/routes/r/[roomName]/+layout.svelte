@@ -11,7 +11,6 @@
     import { loading, userStore } from "$lib/store";
     import System from "$lib/modules/System";
     import { roomChannel, roomPresenceChannel } from "$lib/store/pusher";
-    import ClientRoom from "$lib/modules/Room";
 
     const room: Awaited<ReturnType<(typeof ServerRoom)["getByName"]>> =
         $page.data.room;
@@ -19,16 +18,21 @@
     const chats: Awaited<ReturnType<(typeof ServerRoom)["getSortedChats"]>> =
         $page.data.chats;
 
-    if (browser) {
-        $roomStore = room;
-        $chatsStore = chats;
-        if (room?.visibility !== "private") {
-            $roomAccess = true;
-        }
+    $loading = true;
 
-        if (room) {
-            System.initRoomPusher(room.name);
-        }
+    if (browser) {
+        (async () => {
+            $roomStore = room;
+            $chatsStore = chats;
+            if (room?.visibility !== "private") {
+                $roomAccess = true;
+            }
+
+            if (room) {
+                await Promise.all(System.initRoomPusher(room.name));
+            }
+            $loading = false;
+        })();
     }
 
     onDestroy(() => {

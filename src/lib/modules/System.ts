@@ -124,41 +124,52 @@ class System {
     }
 
     public static initRoomPusher(roomName: string) {
-        if (get(roomChannel)) {
-            get(roomChannel)?.disconnect();
-            roomChannel.set(null);
-        }
+        let returnPromises = [];
 
-        const rc = pusher.subscribe(`private-r-${roomName}`);
+        returnPromises[0] = new Promise(resolve => {
 
-        rc.bind("pusher:subscription_succeeded", () => {
-            ClientRoom.onSubscriptionSucceeded(roomName)
+            if (get(roomChannel)) {
+                get(roomChannel)?.disconnect();
+                roomChannel.set(null);
+            }
+
+            const rc = pusher.subscribe(`private-r-${roomName}`);
+
+            rc.bind("pusher:subscription_succeeded", () => {
+                ClientRoom.onSubscriptionSucceeded(roomName)
+                resolve(true);
+            })
+
+            rc.bind("pusher:subscription_error", console.error)
+
+            rc.bind('client-new-chat', ClientRoom.newChatHandler);
+            rc.bind('client-typing-start', ClientRoom.typingStartHandler);
+            rc.bind('client-typing-stop', ClientRoom.typingStopHandler);
+
+            rc.bind("pusher:disconnected", () => {
+                ClientRoom.onDisconnect(roomName);
+            });
+
+            (window as any).roomChannel = rc;
+            roomChannel.set(rc);
         })
 
-        rc.bind("pusher:subscription_error", console.error)
+        returnPromises[1] = new Promise(resolve => {
+            // Presence Channel Setup
+            const rpc = pusher.subscribe(`presence-r-${roomName}`) as PresenceChannel;
 
-        rc.bind('client-new-chat', ClientRoom.newChatHandler);
-        rc.bind('client-typing-start', ClientRoom.typingStartHandler);
-        rc.bind('client-typing-stop', ClientRoom.typingStopHandler);
+            rpc.bind("pusher:subscription_succeeded", () => {
+                ClientRoom.onPresenceChannelSubscriptionSucceeded(roomName);
+                resolve(true);
+            });
+            rpc.bind("pusher:member_added", ClientRoom.userJoinHandler);
+            rpc.bind("pusher:member_removed", ClientRoom.userLeaveHandler);
 
-        rc.bind("pusher:disconnected", () => {
-            ClientRoom.onDisconnect(roomName);
-        });
+            (window as any).roomPresenceChannel = rpc;
+            roomPresenceChannel.set(rpc);
+        })
 
-        (window as any).roomChannel = rc;
-        roomChannel.set(rc);
-
-        // Presence Channel Setup
-        const rpc = pusher.subscribe(`presence-r-${roomName}`) as PresenceChannel;
-
-        rpc.bind("pusher:subscription_succeeded", () => {
-            ClientRoom.onPresenceChannelSubscriptionSucceeded(roomName);
-        });
-        rpc.bind("pusher:member_added", ClientRoom.userJoinHandler);
-        rpc.bind("pusher:member_removed", ClientRoom.userLeaveHandler);
-
-        (window as any).roomPresenceChannel = rpc;
-        roomPresenceChannel.set(rpc);
+        return returnPromises
     }
 
     public static setDarkMode(value: boolean) {
