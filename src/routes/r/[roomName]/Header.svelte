@@ -45,7 +45,7 @@
         </SimpleTooltip>
         <SimpleTooltip message="Show Members" side="bottom">
             <Button
-                on:click={() => ($showMembers = !$showMembers)}
+                on:click={() => ($showMembers = true)}
                 class="h-fit flex-center p-1 bg-green-500 hover:bg-green-600"
             >
                 <Icon class="text-lg" icon="ic:sharp-people" />
