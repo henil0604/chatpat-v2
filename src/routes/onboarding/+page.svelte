@@ -65,7 +65,9 @@
         }
 
         if (submit.code === CODE.DONE) {
-            goto("/");
+            goto("/", {
+                invalidateAll: true,
+            });
         }
 
         $loading = false;
