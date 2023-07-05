@@ -31,7 +31,7 @@
 
         <div class="mx-1.5" />
 
-        <div class="text-lg flex-center">{room?.name}</div>
+        <div class="min-w-fit">{room?.name}</div>
     </div>
     <!-- Right -->
     <div class="flex-center gap-1">
