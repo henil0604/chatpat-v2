@@ -93,6 +93,14 @@ class ServerUser {
         })
     }
 
+    public static async getBasicByUsername(username: string) {
+        return prisma.user.findFirst({
+            where: {
+                username
+            },
+        })
+    }
+
 }
 
 export default ServerUser;

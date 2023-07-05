@@ -84,7 +84,7 @@ model Chat {
   room      Room     @relation(fields: [roomId, roomName], references: [id, name], onDelete: Cascade)
   roomId    String
   roomName  String
-  reactions String[]
+  reactions String[] @default([])
 
   repliedChat   Chat?   @relation("repliedChat", fields: [repliedChatId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   repliedChatId String?

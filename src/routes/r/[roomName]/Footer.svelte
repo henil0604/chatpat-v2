@@ -92,6 +92,7 @@
             ownerId: user.id as string,
             roomId: $roomStore.id,
             repliedChat: data.repliedChat,
+            reactions: []
         });
 
         $chatsMetaStore = $chatsMetaStore.map((e) => {

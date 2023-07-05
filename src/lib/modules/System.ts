@@ -146,6 +146,8 @@ class System {
             rc.bind('client-chat-unsend', ClientRoom.chatUnsendHandler);
             rc.bind('client-typing-start', ClientRoom.typingStartHandler);
             rc.bind('client-typing-stop', ClientRoom.typingStopHandler);
+            rc.bind('client-chat-reaction-add', ClientRoom.addReactionHandler);
+            rc.bind('client-chat-reaction-remove', ClientRoom.removeReactionHandler);
 
             rc.bind("pusher:disconnected", () => {
                 ClientRoom.onDisconnect(roomName);

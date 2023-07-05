@@ -193,6 +193,48 @@ export const roomRouter = t.router({
                 id: input.id
             }
         }
-    })
+    }),
+
+    addReaction: t.procedure.use(authMiddleware).input(z.object({
+        id: z.string(),
+        reaction: z.string(),
+    })).query(async ({ input, ctx }) => {
+
+        const user = ctx.user!;
+
+        const chat = await ServerChat.getById(input.id);
+
+        await ServerChat.addReaction(input.id, user.username as string, input.reaction);
+
+        return {
+            code: CODE.DONE,
+            message: 'Reaction added',
+            data: {
+                id: input.id,
+                reaction: input.reaction
+            }
+        }
+    }),
+
+    removeReaction: t.procedure.use(authMiddleware).input(z.object({
+        id: z.string(),
+        reaction: z.string(),
+    })).query(async ({ input, ctx }) => {
+
+        const user = ctx.user!;
+
+        const chat = await ServerChat.getById(input.id);
+
+        await ServerChat.removeReaction(input.id, user.username as string, input.reaction);
+
+        return {
+            code: CODE.DONE,
+            message: 'Reaction removed',
+            data: {
+                id: input.id,
+                reaction: input.reaction
+            }
+        }
+    }),
 
 });

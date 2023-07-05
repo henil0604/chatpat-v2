@@ -37,6 +37,19 @@ export function removeChat(id: string) {
     chatsStore.set(get(chatsStore).filter(e => e.id !== id));
 }
 
+export function updateChat(id: string, data: Partial<chat>) {
+    let chat = getChat(id)!;
+    let updatedChat = {
+        ...chat.chat!,
+        ...data
+    }
+
+    chatsStore.update(chats => {
+        chats[chat.index] = updatedChat;
+        return chats;
+    })
+}
+
 export let recentAlert = writable("");
 let recentAlertCleanupTimeout: any;
 recentAlert.subscribe(e => {

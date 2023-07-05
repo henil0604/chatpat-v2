@@ -54,4 +54,34 @@ export default class ServerChat {
         })
     }
 
+    public static async addReaction(id: string, username: string, reaction: string) {
+        return await prisma.chat.update({
+            where: {
+                id: id
+            },
+            data: {
+                reactions: {
+                    push: `${username}:${reaction}`
+                }
+            }
+        })
+    }
+
+    public static async removeReaction(id: string, username: string, reaction: string) {
+        const currentReactions = (await ServerChat.getById(id))?.reactions!;
+        const updatedReactions = currentReactions.filter(e => {
+            return e != `${username}:${reaction}`
+        })
+        return await prisma.chat.update({
+            where: {
+                id: id
+            },
+            data: {
+                reactions: {
+                    set: updatedReactions
+                }
+            }
+        })
+    }
+
 }

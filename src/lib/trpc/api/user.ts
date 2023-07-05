@@ -5,6 +5,7 @@ import { CODE } from "$lib/const";
 import ServerUser from "$lib/modules/server/User";
 import type { error } from "@sveltejs/kit";
 import type { Room } from "@prisma/client";
+import { TRPCError } from "@trpc/server";
 
 export const userRouter = t.router({
     isValidUsername: t.procedure.use(authMiddleware).input(z.object({ username: z.string() })).query(async ({ input, ctx }) => {
@@ -67,5 +68,15 @@ export const userRouter = t.router({
         }
 
     }),
-
+    getImage: t.procedure.use(authMiddleware).input(z.object({
+        username: z.string()
+    })).query(async ({ input, ctx }) => {
+        const askedUser = await ServerUser.getBasicByUsername(input.username)
+        if (!askedUser) {
+            throw new TRPCError({
+                code: 'NOT_FOUND'
+            })
+        }
+        return askedUser.image;
+    })
 });

@@ -1,4 +1,4 @@
-import { getChat, type chat, addChat, chatsMetaStore, roomStore, recentAlert, typingUsers, removeChat } from "$lib/store/room";
+import { getChat, type chat, addChat, chatsMetaStore, roomStore, recentAlert, typingUsers, removeChat, updateChat } from "$lib/store/room";
 import { get } from 'svelte/store'
 import System from "./System";
 import { userStore } from "$lib/store";
@@ -107,6 +107,26 @@ export default class ClientRoom {
         removeChat(data.id);
     }
 
+    public static addReactionHandler(data: { id: string, reaction: string, reactedBy: string }) {
+        console.log(data);
+        updateChat(data.id, {
+            reactions: [
+                ...(getChat(data.id).chat?.reactions || []),
+                `${data.reactedBy}:${data.reaction}`,
+            ],
+        })
+    }
+
+    public static removeReactionHandler(data: { id: string, reaction: string, reactedBy: string }) {
+        console.log(data);
+        updateChat(data.id, {
+            reactions: [
+                ...(getChat(data.id).chat?.reactions || []).filter((e) => {
+                    return e != `${data.reactedBy}:${data.reaction}`;
+                }),
+            ],
+        })
+    }
 
 
 }
