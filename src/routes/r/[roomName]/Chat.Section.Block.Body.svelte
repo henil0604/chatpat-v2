@@ -162,7 +162,16 @@
 
     <!-- Reply Box -->
     {#if chat.repliedChat}
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
         <div
+            on:click={() => {
+                const div = document.querySelector(
+                    `[data-chat-id="${chat.repliedChat?.id}"]`
+                );
+                if (!div) return;
+
+                div.scrollIntoView();
+            }}
             class="p-2 py-1 flex flex-col w-full rounded-r-md pr-7 border-l-4 my-1 {chat
                 .repliedChat.owner.id === user.id
                 ? 'bg-message-sent-reply-box text-message-sent-reply-box-foreground'
