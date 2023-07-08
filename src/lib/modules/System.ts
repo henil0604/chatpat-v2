@@ -7,6 +7,7 @@ import { get } from "svelte/store";
 import pusher from "$lib/modules/pusher";
 import ClientRoom from "./Room";
 import type { PresenceChannel } from "pusher-js";
+import Store from "./Store";
 
 class System {
     private constructor() { }
@@ -115,6 +116,11 @@ class System {
 
         gc.bind("pusher:subscription_succeeded", () => {
             console.log(`Subscribed to global channel`)
+        })
+
+        gc.bind('client-change-service-settings', () => {
+            console.log("got command to fetch service settings")
+            Store.fetchServiceSettings();
         })
 
         gc.bind("pusher:subscription_error", console.error);

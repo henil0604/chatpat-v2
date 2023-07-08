@@ -5,11 +5,13 @@
     import { LoadingLayout } from "$components/ui/LoadingLayout";
     import NavigationBar from "$components/ui/NavigationBar/NavigationBar.svelte";
     import { TooltipProvider } from "$components/ui/tooltip";
+    import { ADMIN_EMAILS } from "$lib/const";
     import Store from "$lib/modules/Store";
     import System from "$lib/modules/System";
     import {
         darkMode,
         loading,
+        settingsStore,
         userStore,
         userWalletBalance,
     } from "$lib/store";
@@ -20,6 +22,7 @@
 
         if (browser && $userStore) {
             Store.refetchUserWalletBalance();
+            Store.fetchServiceSettings();
         }
     });
 
@@ -46,10 +49,23 @@
             return $page.url.pathname.startsWith(e);
         })
         .some(Boolean);
+
+    $: isAdmin = ADMIN_EMAILS.includes(user?.email || "");
 </script>
 
 {#if $loading}
     <LoadingLayout />
+{/if}
+
+{#if $settingsStore?.underMaintenance === true && !isAdmin}
+    <div
+        class="fixed top-0 left-0 w-screen h-screen bg-slate-950 text-white flex-center z-[999] cursor-not-allowed p-4 flex-col text-center"
+    >
+        <h1 class="text-2xl font-bold flex flex-wrap text-center">
+            System is Under Maintenance!
+        </h1>
+        Please wait while we do our thing.
+    </div>
 {/if}
 
 <TooltipProvider>

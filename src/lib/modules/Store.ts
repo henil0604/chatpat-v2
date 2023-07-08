@@ -1,4 +1,4 @@
-import { userWalletBalance } from "$lib/store";
+import { settingsStore, userWalletBalance } from "$lib/store";
 import { trpc } from "$trpc/client";
 
 export default class Store {
@@ -9,6 +9,12 @@ export default class Store {
         const balance = await trpc().user.getUserWalletBalance.query();
         userWalletBalance.set(balance);
         return balance;
+    }
+
+    public static async fetchServiceSettings() {
+        const s = await trpc().service.getServiceSettings.query();
+        settingsStore.set(s);
+        return s;
     }
 
 }

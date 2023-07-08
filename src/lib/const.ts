@@ -13,7 +13,6 @@ export const ADMIN_EMAILS = [
     "princerenuka083@gmail.com"
 ]
 
-
 export const REGEX = {
     alphanumeric: /^[A-Za-z0-9_\.-]*$/
 }
