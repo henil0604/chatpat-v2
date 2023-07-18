@@ -3,6 +3,8 @@
     import { goto } from "$app/navigation";
     import { page } from "$app/stores";
     import ErrorCardGenerator from "$components/ErrorCardGenerator.svelte";
+    import { AlertDescription, AlertTitle } from "$components/ui/alert";
+    import Alert from "$components/ui/alert/Alert.svelte";
     import { Button } from "$components/ui/button";
     import {
         Card,
@@ -17,6 +19,7 @@
     import { trpc } from "$lib/trpc/client";
     import { redirect } from "@sveltejs/kit";
     import { debounce } from "lodash-es";
+    import { AlertCircle } from "lucide-svelte";
     import { onMount } from "svelte";
 
     const user = $page.data.user!;
@@ -94,6 +97,18 @@
             >
         </CardHeader>
         <CardContent>
+            <Alert class="text-amber-500 border-amber-500 max-w-[500px]">
+                <AlertTitle>Notice</AlertTitle>
+                <AlertDescription
+                    >This is development Version. If you previously had an
+                    account, and you are still on this page, That means your
+                    account was deleted for <b>development reasons</b>. We
+                    frequently change our database, so in order to introduce a
+                    new feature, sometimes we have to clear all the data from
+                    our database. Thank You🙏</AlertDescription
+                >
+            </Alert>
+
             <hr class="mb-4" />
 
             <ErrorCardGenerator bind:error />
